@@ -5,12 +5,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateUsersTable extends Migration {
 
-	/**
-	 * Creates the users table, which will contain the owners of the applications
-	 *
-	 * @return void
-	**/
-	public function up() {
+    /**
+     * Creates the users table, which will contain the owners of the applications
+     *
+     * @return void
+    **/
+    public function up() {
         Schema::create('users', function($table) {
         
             /**
@@ -43,15 +43,15 @@ class CreateUsersTable extends Migration {
             **/
             $table->timestamps();
         });
-	}
+    }
 
-	/**
-	 * Drops the users table
-	 *
-	 * @return void
-	**/
-	public function down() {
+    /**
+     * Drops the users table
+     *
+     * @return void
+    **/
+    public function down() {
         Schema::dropIfExists('users');
-	}
+    }
 
 }

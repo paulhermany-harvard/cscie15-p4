@@ -5,14 +5,14 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateResourceableTables extends Migration {
 
-	/**
-	 * Creates the resourceable "parent" tables for the application setting value
-	 *
-	 * @return void
-	 */
-	public function up() {
+    /**
+     * Creates the resourceable "parent" tables for the application setting value
+     *
+     * @return void
+    **/
+    public function up() {
     
-        Schema::create('binaryresource', function($table) {
+        Schema::create('binaryresource', function($table) {      
         
             /**
              * id
@@ -83,19 +83,19 @@ class CreateResourceableTables extends Migration {
             **/            
             $table->string('value');
         });
-	}
+    }
 
-	/**
-	 * Drops the resourceable tables
-	 *
-	 * @return void
-	 */
-	public function down() {
-		Schema::dropIfExists('binaryresource');
+    /**
+     * Drops the resourceable tables
+     *
+     * @return void
+    **/
+    public function down() {
+        Schema::dropIfExists('binaryresource');
         Schema::dropIfExists('booleanresource');
         Schema::dropIfExists('floatresource');
         Schema::dropIfExists('integerresource');
         Schema::dropIfExists('stringresource');
-	}
+    }
 
 }

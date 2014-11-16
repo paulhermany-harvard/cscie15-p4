@@ -5,12 +5,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAppsTable extends Migration {
 
-	/**
-	 * Create the apps table, which stores applications
-	 *
-	 * @return void
-	**/
-	public function up() {
+    /**
+     * Create the apps table, which stores applications
+     *
+     * @return void
+    **/
+    public function up() {
         Schema::create('apps', function($table) {
         
             /**
@@ -56,15 +56,15 @@ class CreateAppsTable extends Migration {
             **/
             $table->timestamps();
         });
-	}
+    }
 
-	/**
-	 * Drops the apps table
-	 *
-	 * @return void
-	**/
-	public function down() {
-		Schema::dropIfExists('apps');
-	}
+    /**
+     * Drops the apps table
+     *
+     * @return void
+    **/
+    public function down() {
+        Schema::dropIfExists('apps');
+    }
 
 }

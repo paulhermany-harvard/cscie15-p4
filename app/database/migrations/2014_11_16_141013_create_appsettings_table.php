@@ -5,13 +5,13 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAppsettingsTable extends Migration {
 
-	/**
-	 * Creates the appsettings table, which stores application settings
-	 *
-	 * @return void
-	 */
-	public function up() {
-		Schema::create('appsettings', function($table) {
+    /**
+     * Creates the appsettings table, which stores application settings
+     *
+     * @return void
+     */
+    public function up() {
+        Schema::create('appsettings', function($table) {
         
             /**
              * id
@@ -39,15 +39,15 @@ class CreateAppsettingsTable extends Migration {
             **/
             $table->morphs('resourceable');
         });
-	}
+    }
 
-	/**
-	 * Drops the appsettings table
-	 *
-	 * @return void
-	 */
-	public function down() {
-		Schema::dropIfExists('appsettings');
-	}
+    /**
+     * Drops the appsettings table
+     *
+     * @return void
+     */
+    public function down() {
+        Schema::dropIfExists('appsettings');
+    }
 
 }

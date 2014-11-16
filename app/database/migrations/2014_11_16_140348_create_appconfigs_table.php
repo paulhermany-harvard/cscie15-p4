@@ -5,12 +5,12 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateAppconfigsTable extends Migration {
 
-	/**
-	 * Creates the appconfigs table, which stores application configurations
-	 *
-	 * @return void
-	**/
-	public function up() {
+    /**
+     * Creates the appconfigs table, which stores application configurations
+     *
+     * @return void
+    **/
+    public function up() {
         Schema::create('appconfigs', function($table) {
         
             /**
@@ -44,15 +44,15 @@ class CreateAppconfigsTable extends Migration {
             **/
             $table->timestamps();
         });
-	}
+    }
 
-	/**
-	 * Drops the appconfigs table
-	 *
-	 * @return void
-	**/
-	public function down() {
-		Schema::dropIfExists('appconfigs');
-	}
+    /**
+     * Drops the appconfigs table
+     *
+     * @return void
+    **/
+    public function down() {
+        Schema::dropIfExists('appconfigs');
+    }
 
 }
