@@ -32,6 +32,12 @@ class CreateUsersTable extends Migration {
             $table->string('password');
             
             /**
+             * api_token
+             * stores the api token used for token-based authentication
+            **/
+            $table->string('api_token',96)->nullable();
+            
+            /**
              * remember_token
              * stores the token for "remember me" sessions
             **/

@@ -1,0 +1,15 @@
+apiadmin apiadmin-pwd-prd
+apiuser	apiuser-pwd-prd
+
+mysql --host=localhost -uroot -p
+
+create database wsdb
+create user 'wsuser'@'localhost' identified by 'wsuser-pwd-dev';
+grant all privileges on cscie15_ws . * to 'wsuser'@'localhost';
+
+mysql --local-infile=1 -p
+
+CREATE TABLE words ( id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, word varchar(30) NOT NULL, level varchar(5) NOT NULL );
+
+load data local infile 'C:\cscie15\api-docs\bigiqkids.com\words.csv' into table words fields terminated by ',' (words.word, words.level) set id = null;
+

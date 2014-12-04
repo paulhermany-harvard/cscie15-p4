@@ -11,23 +11,8 @@ class CreateResourceableTables extends Migration {
      * @return void
     **/
     public function up() {
-    
-        Schema::create('binaryresource', function($table) {      
-        
-            /**
-             * id
-             * stores the unique, sequential identifier of the binary resource
-            **/
-            $table->increments('id');
-            
-            /**
-             * value
-             * stores the binary value of the resource
-            **/
-            $table->binary('value');
-        });
 
-        Schema::create('booleanresource', function($table) {
+        Schema::create('boolean_resources', function($table) {
             /**
              * id
              * stores the unique, sequential identifier of the boolean resource
@@ -41,7 +26,7 @@ class CreateResourceableTables extends Migration {
             $table->boolean('value');
         });
 
-        Schema::create('floatresource', function($table) {
+        Schema::create('float_resources', function($table) {
             /**
              * id
              * stores the unique, sequential identifier of the floating point resource
@@ -55,7 +40,7 @@ class CreateResourceableTables extends Migration {
             $table->float('value');
         });
         
-        Schema::create('integerresource', function($table) {
+        Schema::create('integer_resources', function($table) {
             /**
              * id
              * stores the unique, sequential identifier of the integer resource
@@ -69,7 +54,7 @@ class CreateResourceableTables extends Migration {
             $table->integer('value');
         });
 
-        Schema::create('stringresource', function($table) {
+        Schema::create('string_resources', function($table) {
             
             /**
              * id
@@ -91,11 +76,10 @@ class CreateResourceableTables extends Migration {
      * @return void
     **/
     public function down() {
-        Schema::dropIfExists('binaryresource');
-        Schema::dropIfExists('booleanresource');
-        Schema::dropIfExists('floatresource');
-        Schema::dropIfExists('integerresource');
-        Schema::dropIfExists('stringresource');
+        Schema::dropIfExists('boolean_resource');
+        Schema::dropIfExists('float_resource');
+        Schema::dropIfExists('integer_resource');
+        Schema::dropIfExists('string_resource');
     }
 
 }

@@ -3,15 +3,15 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateAppconfigsTable extends Migration {
+class CreateConfigsTable extends Migration {
 
     /**
-     * Creates the appconfigs table, which stores application configurations
+     * Creates the configs table, which stores application configurations
      *
      * @return void
     **/
     public function up() {
-        Schema::create('appconfigs', function($table) {
+        Schema::create('configs', function($table) {
         
             /**
              * id
@@ -47,12 +47,12 @@ class CreateAppconfigsTable extends Migration {
     }
 
     /**
-     * Drops the appconfigs table
+     * Drops the configs table
      *
      * @return void
     **/
     public function down() {
-        Schema::dropIfExists('appconfigs');
+        Schema::dropIfExists('configs');
     }
 
 }

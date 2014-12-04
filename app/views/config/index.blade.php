@@ -1,0 +1,30 @@
+@extends('layouts.master')
+
+@section('PlaceHolderTitle', 'Configuration Index')
+
+@section('PlaceHolderMainForm')
+
+    <h3>
+        <a href="{{ URL::action('AppController@index') }}">Apps</a>
+        <span> / </span>
+        <a href="{{ URL::action('AppController@show', $app->id) }}">{{{ $app->name }}}</a>
+        <span> / </span>
+        <span>Configurations</span>
+    </h3>
+
+    <hr />
+    
+    @foreach($app->configs as $config)
+    <h4>
+        <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}">{{{ $config->name }}}</a>
+    </h4>
+    <p class="description">{{ $config->description }}</p>
+    <p class="updated-at">Last updated {{ $config->updated_at_display() }}</p>
+    <hr />
+    @endforeach
+    
+    <a class="btn btn-primary btn-md" href="{{ URL::action('ConfigController@create', $app->id) }}">
+      <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Configuration
+    </a>
+    
+@stop

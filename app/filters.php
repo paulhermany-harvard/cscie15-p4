@@ -48,10 +48,33 @@ Route::filter('auth', function()
     }
 });
 
-
 Route::filter('auth.basic', function()
 {
     return Auth::basic();
+});
+
+Route::filter('auth.api', function($route, $request) {
+    if(Auth::guest()) {
+        $payload = $request->header('X-Auth-Token');
+
+        if($payload) {
+            $user = User::where('api_token',$payload)->first();
+        }
+        
+        if(!isset($user)) {
+            $response = Response::json([
+                'error' => true,
+                'message' => 'Not authenticated',
+                'code' => 401],
+                401
+            );
+            $response->header('Content-Type', 'application/json');
+            return $response;
+        }
+    } else {
+        $user = Auth::user();
+    }
+    Session::put('apiuser', $user);
 });
 
 /*
