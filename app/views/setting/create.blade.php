@@ -29,6 +29,7 @@
                 array(
                     'binary' => 'Binary',
                     'boolean' => 'Boolean',
+                    'datetime' => 'Datetime',
                     'float' => 'Float',
                     'integer' => 'Integer',
                     'string' => 'String'
@@ -44,6 +45,9 @@
             </div>
             <div class="boolean" style="display:none;">
                 {{ Form::checkbox('boolean_value', null, false) }}
+            </div>
+            <div class="datetime" style="display:none;">
+                {{ Form::datetime('datetime_value', null, array('class' => 'form-control')) }}
             </div>
             <div class="float" style="display:none;">
                 {{ Form::text('float_value', null, array('class' => 'form-control')) }}
@@ -74,6 +78,7 @@
     
         function setType(type) {
             $('.value .binary').val('').hide();
+            $('.value .datetime').val('').hide();
             $('.value .boolean').prop('checked', false).hide();
             $('.value .float').val('').hide();
             $('.value .integer').val('').hide();

@@ -129,6 +129,10 @@ class SettingController extends \ApiBaseController {
                     $resource = new Configurely\BooleanResource();
                     $resource->value = (Input::get('boolean_value') === 'yes');
                     break;
+                case "datetime":
+                    $resource = new Configurely\DatetimeResource();
+                    $resource->value = Input::get('datetime_value');
+                    break;
                 case "float":
                     $resource = new Configurely\FloatResource();
                     $resource->value = Input::get('float_value');
