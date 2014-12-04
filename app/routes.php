@@ -73,7 +73,7 @@ Route::post('/login',
             $credentials = Input::only('email', 'password');
 
             if (Auth::attempt($credentials, $remember = true)) {
-                return Redirect::intended('/app')
+                return Redirect::intended('/api/v1/app')
                     ->with('flash_message', 'Welcome Back!')
                     ->with('flash_severity', 'info');
             }
@@ -131,7 +131,7 @@ Route::post('/signup',
             # Log the user in
             Auth::login($user);
 
-            return Redirect::to('/app')
+            return Redirect::to('/api/v1/app')
                 ->with('flash_message', 'Welcome to hello!')
                 ->with('flash_severity', 'info');
 

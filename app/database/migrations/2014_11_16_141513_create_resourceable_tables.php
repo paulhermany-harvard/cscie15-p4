@@ -63,6 +63,12 @@ class CreateResourceableTables extends Migration {
             $table->increments('id');
             
             /**
+             * class_name
+             * stores the name of the class for single-table-inheritance
+            **/
+            $table->string('class_name')->index();
+            
+            /**
              * value
              * stores the string value of the resource
             **/            
@@ -76,10 +82,10 @@ class CreateResourceableTables extends Migration {
      * @return void
     **/
     public function down() {
-        Schema::dropIfExists('boolean_resource');
-        Schema::dropIfExists('float_resource');
-        Schema::dropIfExists('integer_resource');
-        Schema::dropIfExists('string_resource');
+        Schema::dropIfExists('boolean_resources');
+        Schema::dropIfExists('float_resources');
+        Schema::dropIfExists('integer_resources');
+        Schema::dropIfExists('string_resources');
     }
 
 }

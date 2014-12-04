@@ -105,8 +105,8 @@ class SettingController extends \ApiBaseController {
             switch ($type) {
                 case "binary":
                 
-                    $resource = new Configurely\StringResource();
-                    $resource.validate(Input::all());
+                    $resource = new Configurely\BinaryResource();
+                    $resource->validate(Input::all());
                 
                     if (!Input::hasFile('binary_value')) {
                         return $this->getErrorResponse('AppController@index', [], Lang::get('api.bad_request'));
@@ -121,8 +121,6 @@ class SettingController extends \ApiBaseController {
                     $filename = preg_replace('/[^a-zA-Z0-9-_\.]/','_', $key).'.'.$extension;
                     
                     $file->move(storage_path().$destinationPath, $filename);
-                    
-                    
                     
                     $resource->value = $destinationPath.'/'.$filename;                    
                     
