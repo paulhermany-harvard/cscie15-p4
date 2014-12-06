@@ -31,7 +31,6 @@
                     'binary' => 'Binary',
                     'boolean' => 'Boolean',
                     'datetime' => 'Datetime',
-                    'float' => 'Float',
                     'integer' => 'Integer',
                     'string' => 'String'
                 ),
@@ -52,10 +51,6 @@
             <div class="datetime" style="display:none;">
                 {{ Form::text('datetime_value', null, array('class' => 'form-control')) }}
                 <p class="text-danger">{{ $errors->first('datetime_value') }}</p>
-            </div>
-            <div class="float" style="display:none;">
-                {{ Form::text('float_value', null, array('class' => 'form-control')) }}
-                <p class="text-danger">{{ $errors->first('float_value') }}</p>
             </div>
             <div class="integer" style="display:none;">
                 {{ Form::number('integer_value', null, array('class' => 'form-control')) }}
@@ -80,7 +75,6 @@
             $('.value .binary').val('').hide();
             $('.value .datetime').val('').hide();
             $('.value .boolean').prop('checked', false).hide();
-            $('.value .float').val('').hide();
             $('.value .integer').val('').hide();
             $('.value .string').val('').hide();
 

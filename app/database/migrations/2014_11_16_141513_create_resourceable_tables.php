@@ -40,20 +40,6 @@ class CreateResourceableTables extends Migration {
             $table->datetime('value');
         });
         
-        Schema::create('float_resources', function($table) {
-            /**
-             * id
-             * stores the unique, sequential identifier of the floating point resource
-            **/
-            $table->increments('id');
-            
-            /**
-             * value
-             * stores the floating point value of the resource
-            **/
-            $table->float('value');
-        });
-        
         Schema::create('integer_resources', function($table) {
             /**
              * id
@@ -98,7 +84,6 @@ class CreateResourceableTables extends Migration {
     public function down() {
         Schema::dropIfExists('boolean_resources');
         Schema::dropIfExists('datetime_resources');
-        Schema::dropIfExists('float_resources');
         Schema::dropIfExists('integer_resources');
         Schema::dropIfExists('string_resources');
     }

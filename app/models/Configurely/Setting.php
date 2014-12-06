@@ -18,7 +18,7 @@ class Setting extends Base {
                     'unique:settings,key,'.$this->id,
                     'required'
                 ),
-                'type' => 'in:binary,boolean,datetime,float,integer,string'
+                'type' => 'in:binary,boolean,datetime,integer,string'
             )
         );
     }

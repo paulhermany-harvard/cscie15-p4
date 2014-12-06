@@ -243,8 +243,6 @@ class SettingController extends \ApiBaseController {
                     $value = (Input::get('boolean_value') === 'yes'); break;
                 case "datetime":
                     $value = Input::get('datetime_value'); break;
-                case "float":
-                    $value = Input::get('float_value'); break;
                 case "integer":
                     $value = Input::get('integer_value'); break;
                 case "string":
