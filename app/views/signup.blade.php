@@ -1,13 +1,30 @@
-<h1>Sign up</h1>
+@extends('layouts.master')
 
-{{ Form::open(array('url' => '/signup')) }}
+@section('PlaceHolderTitle', 'Sign up')
 
-    Email<br>
-    {{ Form::text('email') }}<br><br>
-
-    Password:<br>
-    {{ Form::password('password') }}<br><br>
-
-    {{ Form::submit('Submit') }}
-
-{{ Form::close() }}
+@section('PlaceHolderMainForm')
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Sign up</h1>
+                </div>
+                <div class="panel-body">
+                  {{ Form::open(array('url' => '/signup')) }}
+                    <div class="form-group email">
+                        {{ Form::label('email', 'Email:') }}
+                        {{ Form::text('email', null, array('class' => 'form-control')) }}
+                    </div>
+                    <div class="form-group password">
+                        {{ Form::label('password', 'Password:') }}
+                        {{ Form::password('password', array('class' => 'form-control')) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::submit('Sign up', array('class' => 'btn btn-primary btn-md')) }}
+                    </div>
+                  {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
+@stop

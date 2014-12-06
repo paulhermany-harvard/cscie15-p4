@@ -22,6 +22,7 @@
         <div class="form-group key">
             {{ Form::label('key', 'Key') }}
             {{ Form::text('key', null, array('class' => 'form-control')) }}
+            <p class="text-danger">{{ $errors->first('key') }}</p>
         </div>
         <div class="form-group type">
             {{ Form::label('type', 'Type') }}
@@ -34,7 +35,7 @@
                     'integer' => 'Integer',
                     'string' => 'String'
                 ),
-                Input::get('type'),
+                null !== Input::get('type') ? Input::get('type') : 'string',
                 array('class' => 'form-control')
             ) }}
         </div>
@@ -42,30 +43,29 @@
             {{ Form::label('value', 'Value') }}
             <div class="binary" style="display:none;">
                 {{ Form::file('binary_value') }}
+                <p class="text-danger">{{ $errors->first('binary_value') }}</p>
             </div>
             <div class="boolean" style="display:none;">
                 {{ Form::checkbox('boolean_value', null, false) }}
+                <p class="text-danger">{{ $errors->first('boolean_value') }}</p>
             </div>
             <div class="datetime" style="display:none;">
-                {{ Form::datetime('datetime_value', null, array('class' => 'form-control')) }}
+                {{ Form::text('datetime_value', null, array('class' => 'form-control')) }}
+                <p class="text-danger">{{ $errors->first('datetime_value') }}</p>
             </div>
             <div class="float" style="display:none;">
                 {{ Form::text('float_value', null, array('class' => 'form-control')) }}
+                <p class="text-danger">{{ $errors->first('float_value') }}</p>
             </div>
             <div class="integer" style="display:none;">
                 {{ Form::number('integer_value', null, array('class' => 'form-control')) }}
+                <p class="text-danger">{{ $errors->first('integer_value') }}</p>
             </div>
             <div class="string">
                 {{ Form::textarea('string_value', null, array('class' => 'form-control')) }}
-            </div>            
-        </div>
-        
-        <div class="form-group">
-            <ul class="list-unstyled errors">
-              @foreach($errors->all() as $message)
-                <li><p class="text-danger">{{ $message }}</p></li>
-              @endforeach
-            </ul>
+                <p class="text-danger">{{ $errors->first('string_value') }}</p>
+            </div>
+            
         </div>
         
         <div class="form-group">

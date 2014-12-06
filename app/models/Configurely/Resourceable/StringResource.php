@@ -9,4 +9,16 @@ class StringResource extends Resource {
     protected $stiClassField = 'class_name';
     protected $stiBaseClass = 'Configurely\StringResource';
 
+    protected function rules() {
+        return array_merge(
+            parent::rules(),
+            array (
+                'string_value' => array(
+                    'max:65',
+                    'required_if:type,string'
+                )
+            )
+        );
+    }
+    
 }

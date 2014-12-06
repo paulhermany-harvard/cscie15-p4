@@ -84,9 +84,9 @@ class CreateResourceableTables extends Migration {
             
             /**
              * value
-             * stores the string value of the resource
+             * stores the text value of the resource
             **/            
-            $table->string('value');
+            $table->text('value');
         });
     }
 

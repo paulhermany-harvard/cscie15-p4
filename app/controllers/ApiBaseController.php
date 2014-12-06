@@ -12,7 +12,7 @@ class ApiBaseController extends Controller {
     }
     
     protected function getRequestFormat() {
-        return Request::format();
+        return Input::get('format', Request::format());
     }
     
     protected function getSuccessResponse($action, $params, $message) {

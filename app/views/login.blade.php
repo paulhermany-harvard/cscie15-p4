@@ -1,14 +1,31 @@
-<!-- /app/views/login.blade.php -->
-<h1>Log in</h1>
+@extends('layouts.master')
 
-{{ Form::open(array('url' => '/login')) }}
+@section('PlaceHolderTitle', 'Log in')
 
-    Email<br>
-    {{ Form::text('email') }}<br><br>
-
-    Password:<br>
-    {{ Form::password('password') }}<br><br>
-
-    {{ Form::submit('Submit') }}
-
-{{ Form::close() }}
+@section('PlaceHolderMainForm')
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">Log in</h1>
+                </div>
+                <div class="panel-body">
+                  {{ Form::open(array('url' => '/login')) }}
+                    <div class="form-group email">
+                        {{ Form::label('email', 'Email:') }}
+                        {{ Form::text('email', null, array('class' => 'form-control')) }}
+                    </div>
+                    <div class="form-group password">
+                        {{ Form::label('password', 'Password:') }}
+                        {{ Form::password('password', array('class' => 'form-control')) }}
+                    </div>
+                    <div class="form-group">
+                        {{ Form::submit('Log in', array('class' => 'btn btn-primary btn-md')) }}
+                        <a href="/signup" class="btn btn-link btn-md">Sign up</a>
+                    </div>
+                  {{ Form::close() }}
+                </div>
+            </div>
+        </div>
+    </div>
+@stop

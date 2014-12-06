@@ -2,7 +2,6 @@
 
 namespace Configurely;
 use Eloquent;
-use Validator;
 
 class Base extends Eloquent {
 
@@ -65,24 +64,29 @@ class Base extends Eloquent {
 
     /**
      * Validation Pattern
-     * http://daylerees.com/trick-validation-within-models
+     * Adapted: http://daylerees.com/trick-validation-within-models
     **/
     
-    protected $rules = array();
-
-    protected $errors;
+    protected function rules() {
+        return array();
+    }
+    
+    protected function makeValidator($data) {
+        return \Validator::make($data, $this->rules());
+    }
+    
+    protected $validator;
+    
+    public function validator() {
+        return $this->validator;
+    }
     
     public function validate($data) {
-        $validator = Validator::make($data, $this->rules);
-        if ($validator->fails()) {
-            $this->errors = $validator->errors;
+        $this->validator = $this->makeValidator($data);
+        if ($this->validator->fails()) {
             return false;
-        }
+        }        
         return true;
-    }
-
-    public function errors() {
-        return $this->errors;
     }
     
 }

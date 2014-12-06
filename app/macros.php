@@ -25,3 +25,7 @@ Form::macro('dropdown', function($name, $models = null, $valueProperty = 'id', $
     // call the Form::select macro to create the dropdown
     return Form::select($name, $list, $selected, $options);
 });
+
+HTML::macro('resource', function($resource) { 
+    return $resource->render();
+});

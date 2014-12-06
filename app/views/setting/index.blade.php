@@ -9,7 +9,9 @@
         <span> / </span>
         <a href="{{ URL::action('AppController@show', $config->app->id) }}">{{{ $config->app->name }}}</a>
         <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $config->id) }}">{{{ $config->name }}}</a>
+        <a href="{{ URL::action('ConfigController@index', $config->app->id) }}">Configurations</a>
+        <span> / </span>
+        <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}">{{{ $config->name }}}</a>
         <span> / </span>
         <span>Settings</span>
     </h3>
@@ -20,6 +22,7 @@
     <h4>
         <a href="{{ URL::action('SettingController@show', [$config->app->id, $config->id, $setting->id]) }}">{{{ $setting->key }}}</a>
     </h4>
+    {{{ $setting->value }}}
     <hr />
     @endforeach
     

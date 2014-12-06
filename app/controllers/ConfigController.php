@@ -99,7 +99,7 @@ class ConfigController extends \ApiBaseController {
         }
         
         if(!$this->user()->owns($config->app)) {
-            return $this->getErrorResponse('AppController@index', [$app_id], Lang::get('api.app_not_authorized'));
+            return $this->getErrorResponse('AppController@index', [], Lang::get('api.app_not_authorized'));
         }
         
         if($this->getRequestFormat() == 'html') {

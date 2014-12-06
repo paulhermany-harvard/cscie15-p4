@@ -37,6 +37,24 @@ Route::get('generate-auth-token',
 
 //265667529a7bd748f7c7d3ef0869ba999527c80ac3eab464c3901c64e7837955
 
+/*
+// Only accept get requests
+Route::get('img/(:any)/(:any)',function($user, $image = 'blank.png'){
+	
+	$path = path('uploads') . $user . '/' . $image;
+
+	// Error 404 if file doesn't exist
+	if( ! file_exists($path)) {
+		return Response::error('404');
+	}
+
+	// Return the file contents with a 200 success response
+	return Response::make(File::get($path), 200, array(
+		'Content-Type' => File::mime(File::extension($image))
+	));
+});
+*/
+
 Route::group(array('prefix' => 'api', 'before' => 'auth.token'), function() {
     Route::get('/', function() {
         return "Protected resource";
@@ -53,6 +71,7 @@ Route::group(['prefix' => 'api', 'before' => 'auth.api'], function() {
         Route::resource('app', 'AppController');
         Route::resource('app.config', 'ConfigController');
         Route::resource('app.config.setting', 'SettingController');
+        Route::get('/app/{app_id}/config/{config_id}/setting/{setting_id}/download', 'SettingController@download');
     });
 });
    
@@ -138,3 +157,8 @@ Route::post('/signup',
         }
     )
 );
+
+Route::get('/download', function() {
+    return Input::get('path');
+});
+
