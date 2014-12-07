@@ -8,14 +8,13 @@ namespace Configurely;
 class Resource extends Base {
 
     public $timestamps = false;
-    
-    public function render() {
-        return \View::make('resourceable.resource')
-            ->with('setting', $this->setting);
-    }
-    
+
     public function setting() {
         return $this->morphOne('Configurely\Setting', 'resourceable');
+    }
+
+    public function delete() {
+        return parent::delete();
     }
     
     public function getStringValue() {
@@ -26,7 +25,12 @@ class Resource extends Base {
         return strtolower(preg_replace('/(Configurely\\\)(\w+)(Resource)/', '${2}', get_class($this)));
     }
     
-    public function delete() {
-        return parent::delete();
+    public function render() {
+        return \View::make('resourceable.resource')
+            ->with('setting', $this->setting);
+    }
+    
+    public function setValue($setting) {
+        return false;
     }
 }

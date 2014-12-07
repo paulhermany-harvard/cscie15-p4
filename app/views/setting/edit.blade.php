@@ -49,7 +49,7 @@
                 <p class="text-danger">{{ $errors->first('binary_value') }}</p>
             </div>
             <div class="boolean" style="display:none;">
-                {{ Form::checkbox('boolean_value', $setting->value, false) }}
+                {{ Form::checkbox('boolean_value', null, $setting->value) }}
                 <p class="text-danger">{{ $errors->first('boolean_value') }}</p>
             </div>
             <div class="datetime" style="display:none;">

@@ -31,4 +31,22 @@ class Config extends Base {
         return parent::delete();
     }
     
+    public static function getResponse($app_id, $config_id, $fn) {
+        try {
+			$config = Config::with('app', 'settings')->findOrFail($config_id);
+		} catch(Exception $e) {
+            return \ApiBaseController::getErrorResponse('ConfigController@index', [$app_id], \Lang::get('api.config_not_found'));
+		}
+        
+        if($config->app->id != $app_id) {
+            return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.bad_request'));
+        }
+        
+        if(!\Session::get('apiuser')->owns($config->app)) {
+            return \ApiBaseController::getErrorResponse('AppController@index', [$app_id], \Lang::get('api.app_not_authorized'));
+        }
+        
+        return $fn($config);
+    }
+    
 }

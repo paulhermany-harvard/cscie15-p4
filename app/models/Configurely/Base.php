@@ -5,6 +5,9 @@ use Eloquent;
 
 class Base extends Eloquent {
 
+    /**
+     * Gets the updated_at property displayed as a friendly "days ago" string
+    **/
     public function updated_at_display() {
         $datediff = time() - strtotime($this->updated_at);
         $daysago = floor($datediff/(60*60*24));
@@ -30,6 +33,10 @@ class Base extends Eloquent {
     /**
      * STI Pattern
      * http://www.colorfultyping.com/single-table-inheritance-in-laravel-4/
+     * 
+     * The purpose of the single-table-inheritance pattern is to allow multiple types
+     *   to be stored in a single model. For example, the binary type is actually stored
+     *   as a string reference in the database.
     **/
     
     public function __construct($attributes = array()) {
@@ -64,8 +71,12 @@ class Base extends Eloquent {
 
     /**
      * Validation Pattern
-     * Adapted: http://daylerees.com/trick-validation-within-models
+     *   adapted from http://daylerees.com/trick-validation-within-models
+     * 
+     * Rules are defined on the individual models, which are validated individually in the controller.
     **/
+
+    protected $validator;
     
     protected function rules() {
         return array();
@@ -74,8 +85,6 @@ class Base extends Eloquent {
     protected function makeValidator($data) {
         return \Validator::make($data, $this->rules());
     }
-    
-    protected $validator;
     
     public function validator() {
         return $this->validator;

@@ -52,4 +52,21 @@ class Setting extends Base {
         return parent::delete();
     }
     
+    public static function getResponse($app_id, $config_id, $setting_id, $fn) {
+        try {
+			$setting = Setting::with('config.app', 'resourceable')->findOrFail($setting_id);
+		} catch(Exception $e) {
+            return \ApiBaseController::getErrorResponse('SettingController@index', [$app_id, $config_id], \Lang::get('api.setting_not_found'));
+		}
+        
+        if($setting->config->id != $config_id || $setting->config->app->id != $app_id) {
+            return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.bad_request'));
+        }
+        
+        if(!\Session::get('apiuser')->owns($setting->config->app)) {
+            return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.app_not_authorized'));
+        }
+        
+        return $fn($setting);
+    }
 }

@@ -15,14 +15,43 @@ class BinaryResource extends StringResource {
             )
         );
     }
+
+    public function delete() {
+        
+        $fileinfo = explode(';', $this->value);
+        $filepath = str_replace('/','\\',$fileinfo[0]);
+        
+        $path = storage_path().$filepath;
+        
+        if(\File::exists($path)) {
+            \File::delete($path);
+        }
+        
+        return parent::delete();
+    }
+
+    public function getStringValue() {
+        return \URL::action('SettingController@download', [$this->setting->config->app->id, $this->setting->config->id, $this->setting->id]);
+    }
     
     public function render() {
         return \View::make('resourceable.binary')
             ->with('resource', $this);
     }
     
-    public function getStringValue() {
-        return \URL::action('SettingController@download', [$this->setting->config->app->id, $this->setting->config->id, $this->setting->id]);
+    public function setValue($setting) {
+        try {
+            $this->value = BinaryResource::saveFile(
+                \Input::file('binary_value'), 
+                $setting->key, 
+                \Session::get('apiuser')->id,
+                $setting->config->app->id,
+                $setting->config->id
+            );
+        } catch(Exception $e) {
+            return false;
+        }
+        return true;
     }
     
     public static function getFileName($key) {
@@ -44,19 +73,5 @@ class BinaryResource extends StringResource {
         $file->move(storage_path().$destPath, $destFilename);
         
         return $destPath.$destFilename.';'.$filename;
-    }
-    
-    public function delete() {
-        
-        $fileinfo = explode(';', $this->value);
-        $filepath = str_replace('/','\\',$fileinfo[0]);
-        
-        $path = storage_path().$filepath;
-        
-        if(\File::exists($path)) {
-            \File::delete($path);
-        }
-        
-        return parent::delete();
     }
 }

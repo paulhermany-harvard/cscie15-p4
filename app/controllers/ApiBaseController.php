@@ -11,12 +11,18 @@ class ApiBaseController extends Controller {
         return Session::get('apiuser');
     }
     
-    protected function getRequestFormat() {
+    protected function setupLayout() {
+        if ( ! is_null($this->layout)) {
+            $this->layout = View::make($this->layout);
+        }
+    }
+    
+    public static function getRequestFormat() {
         return Input::get('format', Request::format());
     }
     
-    protected function getSuccessResponse($action, $params, $message) {
-        if($this->getRequestFormat() == 'html') {
+    public static function getSuccessResponse($action, $params, $message) {
+        if(ApiBaseController::getRequestFormat() == 'html') {
             return Redirect::action($action, $params)
                 ->with('flash_message', $message)
                 ->with('flash_severity', 'success');
@@ -24,19 +30,12 @@ class ApiBaseController extends Controller {
         return Response::json(array('success' => true, 'message' => $message));
     }
     
-    protected function getErrorResponse($action, $params, $message) {
-        if($this->getRequestFormat() == 'html') {
+    public static function getErrorResponse($action, $params, $message) {
+        if(ApiBaseController::getRequestFormat() == 'html') {
 			return Redirect::action($action, $params)
                 ->with('flash_message', $message)
                 ->with('flash_severity', 'danger');
         }
         return Response::json(array('success' => false, 'message' => $message));
     }
-    
-    protected function setupLayout() {
-        if ( ! is_null($this->layout)) {
-            $this->layout = View::make($this->layout);
-        }
-    }
-    
 }

@@ -14,4 +14,13 @@ class IntegerResource extends Resource {
             )
         );
     }
+    
+    public function setValue($setting) {
+        try {
+            $this->value = Input::get('integer_value');
+        } catch(Exception $e) {
+            return false;
+        }
+        return true;
+    }
 }
