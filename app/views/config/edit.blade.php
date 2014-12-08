@@ -20,10 +20,12 @@
         <div class="form-group name">
             {{ Form::label('name', 'Name') }}
             {{ Form::text('name', $config->name, array('class' => 'form-control')) }}
+            <p class="text-danger">{{ $errors->first('name') }}</p>
         </div>
         <div class="form-group description">
             {{ Form::label('description', 'Description') }}
             {{ Form::textarea('description', $config->description, array('class' => 'form-control')) }}
+            <p class="text-danger">{{ $errors->first('description') }}</p>
         </div>
         <div class="form-group">
             {{ Form::submit('Update', [

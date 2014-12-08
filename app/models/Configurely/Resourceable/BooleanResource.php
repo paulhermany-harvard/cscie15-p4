@@ -16,7 +16,7 @@ class BooleanResource extends Resource {
     
     public function setValue($setting) {
         try {
-            $this->value = (Input::get('boolean_value') === 'on');
+            $this->value = (\Input::get('boolean_value') === 'on');
         } catch(Exception $e) {
             return false;
         }

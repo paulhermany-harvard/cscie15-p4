@@ -30,25 +30,25 @@ class CreateAppsTable extends Migration {
              * name
              * stores the full name of the application
             **/
-            $table->string('name');
+            $table->string('name', 255);
             
             /**
              * description
              * stores a description of the application
             **/
-            $table->text('description');
+            $table->text('description', 4000);
             
             /**
              * live_url
              * stores the live url of the application
             **/
-            $table->string('live_url');
+            $table->string('live_url', 255);
             
             /**
              * scm_url
              * stores the source code management (scm) url of the application
             **/
-            $table->string('scm_url');
+            $table->string('scm_url', 255);
             
             /**
              * created_at/updated_at

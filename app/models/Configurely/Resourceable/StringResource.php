@@ -23,7 +23,7 @@ class StringResource extends Resource {
  
     public function setValue($setting) {
         try {
-            $this->value = Input::get('string_value');
+            $this->value = \Input::get('string_value');
         } catch(Exception $e) {
             return false;
         }

@@ -30,7 +30,7 @@ class CreateSettingsTable extends Migration {
              * key
              * stores the key of the setting, which is unique per configuration
             **/
-            $table->string('key');
+            $table->string('key', 255);
             $table->unique(array('config_id', 'key'));
             
             /**

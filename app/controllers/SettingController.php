@@ -3,14 +3,13 @@
 class SettingController extends \ApiBaseController {
     
 	/**
-     * Calls the Configurely\Config::getResponse method to get a response containing
-     *   the listing of settings for the specified configuration or 
-     *   an error response indicating that the settings can not be listed as requested.
+     * calls the Configurely\Config::getResponse method to get a response containing the listing of settings for the specified configuration or an error response indicating that the settings can not be listed as requested
 	 *
-     * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-	 * @return an html response if the request format is html, a json response otherwise
-	**/
+     * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
+	*/
 	public function index($app_id, $config_id) {
         return Configurely\Config::getResponse($app_id, $config_id,
             function($config) {
@@ -24,14 +23,13 @@ class SettingController extends \ApiBaseController {
 	}
     
 	/**
-	 * Calls the Configurely\Config::getResponse method to get a response containing
-     *   the form for creating a new setting for the specified configuration or
-     *   an error response indicating that the setting can not be created.
+	 * calls the Configurely\Config::getResponse method to get a response containing the form for creating a new setting for the specified configuration or an error response indicating that the setting can not be created
 	 *
-     * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-	 * @return an html response
-	**/
+     * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     *
+	 * @return Response an html response
+	 */
 	public function create($app_id, $config_id) {
         return Configurely\Config::getResponse($app_id, $config_id,
             function($config) {
@@ -44,14 +42,13 @@ class SettingController extends \ApiBaseController {
 	}
 
 	/**
-	 * Calls the Configurely\Config::getResponse method to get a response containing
-     *   a success response indicating that the setting is stored successfully or
-     *   an error response indicating that the setting can not be stored.
+	 * calls the Configurely\Config::getResponse method to get a success response indicating that the setting is stored successfully or an error response indicating that the setting can not be stored
      * 
-	 * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-	 * @return an html response if the request format is html, a json response otherwise
-	**/
+	 * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
+	 */
 	public function store($app_id, $config_id) {
         return Configurely\Config::getResponse($app_id, $config_id,
             function($config) {
@@ -95,15 +92,14 @@ class SettingController extends \ApiBaseController {
 	}
     
 	/**
-	 * Calls the Configurely\Setting::getResponse method to get a response containing
-     *   a view of the specified setting or
-     *   an error response indicating that the setting can not be displayed.
+	 * calls the Configurely\Setting::getResponse method to get a response containing a view of the specified setting or an error response indicating that the setting can not be displayed
      *
-	 * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-     * @param   int      $setting_id    the unique identifier of the setting
-	 * @return  an html response if the request format is html, a json response otherwise
-	**/
+	 * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * @param int $setting_id the unique identifier of the setting
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
+	 */
 	public function show($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
             function($setting) {
@@ -116,17 +112,15 @@ class SettingController extends \ApiBaseController {
         );
 	}
 
-
 	/**
-	 * Calls the Configurely\Setting::getResponse method to get a response containing
-     *   the form for editing the specified setting
-     *   or an error response indicating that the setting can not be edited.
+	 * calls the Configurely\Setting::getResponse method to get a response containing the form for editing the specified setting or an error response indicating that the setting can not be edited
 	 *
-	 * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-     * @param   int      $setting_id    the unique identifier of the setting
-	 * @return an html response if the request format is html, a json response otherwise
-	**/
+	 * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * @param int $setting_id the unique identifier of the setting
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
+	 */
 	public function edit($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
             function($setting) {
@@ -139,18 +133,13 @@ class SettingController extends \ApiBaseController {
 	}
     
 	/**
-	 * Calls the Configurely\Setting::getResponse method to get a response containing
-     *   a success response indicating that the specified setting is updated or
-     *   an error response indicating that the specified setting can not be updated.
-	 *
-     * Because of the polymorphic relationship between Setting and Resource,
-     *   the existing resource will be deleted and a new resource will be created.
-     *   One way to optimize this is to only recreate the resource when the type is changed.     
+	 * calls the Configurely\Setting::getResponse method to get a success response indicating that the specified setting is updated or an error response indicating that the setting can not be updated
      *
-     * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-     * @param   int      $setting_id    the unique identifier of the setting
-	 * @return an html response if the request format is html, a json response otherwise
+     * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * @param int $setting_id the unique identifier of the setting
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
 	 */
 	public function update($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
@@ -163,6 +152,9 @@ class SettingController extends \ApiBaseController {
                         return $this->getRedirectToEdit($setting, $setting->validator());
                     }
                     
+                    // Because of the polymorphic relationship between Setting and Resource,
+                    //   the existing resource will be deleted and a new resource will be created.
+                    //   One way to optimize this is to only recreate the resource when the type is changed.
                     $setting->resourceable->delete();
                     $setting->key = $key;
                     $setting->save();
@@ -193,14 +185,13 @@ class SettingController extends \ApiBaseController {
 	}
 
 	/**
-	 * Calls the Configurely\Setting::getResponse method to get a response containing
-     *   a success response indicating that the specified setting is deleted or
-     *   an error response indicating that the specified setting can not be deleted.
+	 * calls the Configurely\Setting::getResponse method to get a success response indicating that the specified setting is deleted or an error response indicating that the setting can not be deleted
 	 *
-	 * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-     * @param   int      $setting_id    the unique identifier of the configuration
-	 * @return an html response if the request format is html, a json response otherwise
+	 * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * @param int $setting_id the unique identifier of the configuration
+     * 
+	 * @return Response an html response if the request format is html, a json response otherwise
 	 */
 	public function destroy($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
@@ -216,12 +207,13 @@ class SettingController extends \ApiBaseController {
 	}
 
 	/**
-	 * Downloads a file from the storage folder
+	 * downloads a file from the storage folder
 	 *
-	 * @param   int      $app_id        the unique identifier of the application
-     * @param   int      $config_id     the unique identifier of the configuration
-     * @param   int      $setting_id    the unique identifier of the setting
-	 * @return the file as a stream
+	 * @param int $app_id the unique identifier of the application
+     * @param int $config_id the unique identifier of the configuration
+     * @param int $setting_id the unique identifier of the setting
+     * 
+	 * @return Response the file as a stream
 	 */
 	public function download($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
@@ -244,12 +236,22 @@ class SettingController extends \ApiBaseController {
         );
 	}
     
+    /**
+     * gets a response containing a redirect to the create form with input and validation errors
+     * 
+     * @return Response an html response
+     */
     protected function getRedirectToCreate($config, $validator) {
         return Redirect::action('SettingController@create', [$config->app->id, $config->id])
             ->withInput()
             ->withErrors($validator);
     }
 
+    /**
+     * gets a response containing a redirect to the edit form with input and validation errors
+     *
+     * @return Response an html response
+     */
     protected function getRedirectToEdit($setting, $validator) {
         return Redirect::action('SettingController@edit', [$setting->config->app->id, $setting->config->id, $setting->id])
             ->withInput()

@@ -30,13 +30,13 @@ class CreateConfigsTable extends Migration {
              * name
              * stores the name of the configuration
             **/
-            $table->string('name');
+            $table->string('name', 255);
             
             /**
              * description
              * stores the description of the configuration
             **/
-            $table->text('description');
+            $table->text('description', 4000);
             
             /**
              * created_at/updated_at
