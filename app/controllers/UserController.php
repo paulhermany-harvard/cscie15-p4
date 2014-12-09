@@ -86,6 +86,7 @@ class UserController extends Controller {
      */
     public function getLogout() {
         Auth::logout();
+        Session::flush();
         return Redirect::to('/')
             ->with('flash_message', 'You are now logged out.')
             ->with('flash_severity', 'info');

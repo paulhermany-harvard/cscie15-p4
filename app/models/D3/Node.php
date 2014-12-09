@@ -4,31 +4,25 @@ namespace D3;
 
 class Node {
     
+    public $id;
     public $name;
+    public $type;
     public $children;
     public $size;
     
-    public function __construct($name) {
+    public function __construct($id, $name, $type) {
+        $this->id = $id;
         $this->name = $name;
-        $this->children = array();
+        $this->type = $type;
         $this->size = 1;
     }
     
-    public function addChild($name) {
-        $node = new Node($name);
+    public function addChild($id, $name, $type) {
+        if(is_null($this->children)) {
+            $this->children = array();
+        }
+        $node = new Node($id, $name, $type);
         array_push($this->children, $node);
         return $node;
     }
-}
-
-class Leaf {
-    
-    public $name;
-    public $size;
-    
-    public function __construct($name) {
-        $this->name = $name;
-        $this->size = 1;
-    }
-
 }

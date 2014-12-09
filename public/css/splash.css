@@ -1,0 +1,25 @@
+body { overflow:hidden; }
+body > .navbar { margin-bottom:0; }
+
+#graph {
+  display: block;
+  margin: auto;
+  /*margin-top: 20px;*/
+  font-size: 1em;
+}
+
+rect {
+    fill: steelblue;
+    stroke: #fff;
+    stroke-width: 1px;
+}
+rect.parent { cursor: pointer; }
+rect.root { fill-opacity: 1; }
+rect.app { fill-opacity: .80; }
+rect.config { fill-opacity: .60; }
+rect.setting { fill-opacity: .40; }
+rect.resource { fill-opacity: .20; }
+
+text {
+  pointer-events: none;
+}
