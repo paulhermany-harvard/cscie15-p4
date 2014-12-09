@@ -15,8 +15,6 @@
         <h1>Configurely</h1>
         <p class="lead">hello world</p>
  -->
-        
- 
 </div>
 @stop
 

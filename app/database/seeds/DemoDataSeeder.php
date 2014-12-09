@@ -1,0 +1,65 @@
+<?php
+ 
+class DemoDataSeeder extends Seeder {
+ 
+    public function run() {
+        
+        $user = User::where('email','=', 'guest@configurely.com')->first();
+        if(isset($user)) {
+            $app = $this->addApp($user->id, 'cscie15-p1');
+            $config = $this->addConfig($app->id, 'DEV');
+            $setting = $this->addSetting($config->id, 'db_username', 'dbuser-dev');
+            $setting = $this->addSetting($config->id, 'db_password', 'dbpassword-dev');
+            $setting = $this->addSetting($config->id, 'title', 'Project Portfolio');
+            
+            $config = $this->addConfig($app->id, 'QA');
+            
+            $config = $this->addConfig($app->id, 'PROD');
+            $setting = $this->addSetting($config->id, 'db_username', 'dbuser-prod');
+            $setting = $this->addSetting($config->id, 'db_password', 'dbpassword-prod');
+            $setting = $this->addSetting($config->id, 'title', 'Project Portfolio');
+
+            $app = $this->addApp($user->id, 'cscie15-p2');
+            $config = $this->addConfig($app->id, 'DEV');
+            $setting = $this->addSetting($config->id, 'xkcd_comic_id', '936');
+            $setting = $this->addSetting($config->id, 'xkcd_comic_name', 'Password Strength');
+
+            $config = $this->addConfig($app->id, 'QA');
+            
+            $app = $this->addApp($user->id, 'cscie15-p3');
+            $config = $this->addConfig($app->id, 'DEV');
+            $setting = $this->addSetting($config->id, 'lorem-ipsum-label', 'Lorem-Ipsum');
+            $setting = $this->addSetting($config->id, 'user-label', 'Random User');
+            
+            $config = $this->addConfig($app->id, 'TEST');
+            
+        }
+    }
+    
+    protected function addApp($user_id, $name) {
+        return Configurely\App::firstOrCreate([
+            'user_id' => $user_id,
+            'name' => $name
+        ]);
+    }
+    
+    protected function addConfig($app_id, $name) {
+        return Configurely\Config::firstOrCreate([
+            'app_id' => $app_id,
+            'name' => $name
+        ]);
+    }
+    
+    protected function addSetting($config_id, $key, $value) {
+        $setting = Configurely\Setting::firstOrCreate(['config_id' => $config_id, 'key' => $key]);
+        if(isset($setting->resourceable)) {
+            $setting->resourceable->delete();
+        }
+        $resource = new Configurely\StringResource();
+        $resource->value = $value;
+        $resource->save();
+        $resource->setting()->save($setting);    
+        return $setting;
+    }
+ 
+}

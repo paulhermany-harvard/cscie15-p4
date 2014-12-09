@@ -7,7 +7,7 @@ class UserController extends Controller {
      */
     public function __construct() {
         $this->beforeFilter('auth', array('only' => ['getLogout']));
-        $this->beforeFilter('guest', array('except' => ['getLogout']));
+        //$this->beforeFilter('guest', array('except' => ['getLogout']));
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 

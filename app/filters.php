@@ -84,9 +84,10 @@ Route::filter('auth.api', function($route, $request) {
 */
 
 Route::filter('guest', function() {
-    if (Auth::check()) return Redirect::to('/')
-        ->with('flash_message', 'You are currently logged in.')
-        ->with('flash_severity', 'warning');
+    if (!Auth::check()) {
+        $user = User::guest();
+        Auth::loginUsingId($user->id);
+    }
 });
 
 /*

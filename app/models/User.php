@@ -34,4 +34,12 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function verified() {
         return is_null($this->verify_token);
     }
+    
+    public function isGuest() {
+        return ($this->email === 'guest@configurely.com');
+    }
+    
+    public static function guest() {
+        return User::where('email','=','guest@configurely.com')->first();
+    }
 }
