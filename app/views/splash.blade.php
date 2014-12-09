@@ -101,7 +101,7 @@ a:hover {
 .chart {
   display: block;
   margin: auto;
-  margin-top: 60px;
+  margin-top: 20px;
   font-size: 1em;
 }
 
