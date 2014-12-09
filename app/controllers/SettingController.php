@@ -63,13 +63,12 @@ class SettingController extends \ApiBaseController {
                     }
                     
                     $setting = new Configurely\Setting();
+                    $setting->key = $key;
+                    $setting->config()->associate($config);
+                    
                     if(!$setting->validate(Input::all())) {
                         return $this->getRedirectToCreate($config, $setting->validator());
                     }
-                    
-                    $setting->key = $key;
-                    $setting->config()->associate($config);
-                    $setting->save();
                     
                     $resource = new $class();
                     if(!$resource->validate(Input::all())) {
@@ -79,11 +78,13 @@ class SettingController extends \ApiBaseController {
                     if(!$resource->setValue($setting)) {
                         return $this->getErrorResponse('AppController@index', [], Lang::get('api.bad_request'));
                     }
+                    
+                    $setting->save();
                     $resource->save();
                     $resource->setting()->save($setting);
                     
                 } catch(Exception $e) {
-                    return $this->getErrorResponse('SettingController@index', [$config->app->id, $config->id], Lang::get('api.setting_creation_failed'));
+                    return $this->getErrorResponse('SettingController@index', [$config->app->id, $config->id], $e.Lang::get('api.setting_creation_failed'));
                 }
 
                 return $this->getSuccessResponse('SettingController@index', [$config->app->id, $config->id], Lang::get('api.setting_created'));

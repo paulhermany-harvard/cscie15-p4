@@ -35,7 +35,13 @@ class CreateUsersTable extends Migration {
              * api_token
              * stores the api token used for token-based authentication
             **/
-            $table->string('api_token',96)->nullable();
+            $table->string('api_token', 96)->nullable();
+            
+            /**
+             * verify_token
+             * stores the opaque string used for email verification
+            **/
+            $table->string('verify_token', 96)->nullable();
             
             /**
              * remember_token

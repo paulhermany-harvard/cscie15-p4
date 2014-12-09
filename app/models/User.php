@@ -30,4 +30,8 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     public function owns($app) {
         return $this->id == $app->user_id;
     }
+    
+    public function verified() {
+        return is_null($this->verify_token);
+    }
 }

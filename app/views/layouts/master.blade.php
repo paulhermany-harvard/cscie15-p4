@@ -74,6 +74,7 @@
     
 	{{ HTML::script('js/lib/bootstrap-3.2.0.min.js') }}
 	{{ HTML::script('js/app.js') }}
+    @yield('PlaceHolderAdditionalScript')
     
   </body>
 </html>

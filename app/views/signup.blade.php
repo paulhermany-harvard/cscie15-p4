@@ -14,10 +14,12 @@
                     <div class="form-group email">
                         {{ Form::label('email', 'Email:') }}
                         {{ Form::text('email', null, array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('email') }}</p>
                     </div>
                     <div class="form-group password">
                         {{ Form::label('password', 'Password:') }}
                         {{ Form::password('password', array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('password') }}</p>
                     </div>
                     <div class="form-group">
                         {{ Form::submit('Sign up', array('class' => 'btn btn-primary btn-md')) }}

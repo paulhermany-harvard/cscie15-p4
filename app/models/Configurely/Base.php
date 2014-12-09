@@ -122,7 +122,7 @@ class Base extends \Eloquent {
         $this->validator = \Validator::make($data, $this->rules());
         if ($this->validator->fails()) {
             return false;
-        }        
+        }
         return true;
     }
     

@@ -87,11 +87,13 @@ class Setting extends Base {
      * gets the validation rules for the model
     */
     protected function rules() {
+        $setting_id = $this->id ? $this->id : 0;
+        $config_id = $this->config->id;
         return array_merge(
             parent::rules(),
             array(
                 // the key is required and is unique to the configuration
-                'key' => ['max:255', 'unique:settings,key,'.($this->id).',id,config_id,'.($this->config->id), 'required'],
+                'key' => ['max:255', 'unique:settings,key,'.$setting_id.',id,config_id,'.$config_id, 'required'],
                 'type' => 'in:binary,boolean,datetime,integer,string'
             )
         );

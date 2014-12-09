@@ -37,33 +37,37 @@ Route::get('generate-auth-token',
 
 //265667529a7bd748f7c7d3ef0869ba999527c80ac3eab464c3901c64e7837955
 
-/*
-// Only accept get requests
-Route::get('img/(:any)/(:any)',function($user, $image = 'blank.png'){
-	
-	$path = path('uploads') . $user . '/' . $image;
-
-	// Error 404 if file doesn't exist
-	if( ! file_exists($path)) {
-		return Response::error('404');
-	}
-
-	// Return the file contents with a 200 success response
-	return Response::make(File::get($path), 200, array(
-		'Content-Type' => File::mime(File::extension($image))
-	));
-});
-*/
-
-Route::group(array('prefix' => 'api', 'before' => 'auth.token'), function() {
-    Route::get('/', function() {
-        return "Protected resource";
-    });
-}); 
-
 Route::get('/test', function() {
     $access_token = Request::header('X-Auth-Token');
     return $access_token;
+});
+
+Route::get('/d3data', function() {
+    $data = new D3\Node('My Applications');
+    
+    $apps = Session::get('apiuser')->apps()->get();
+    foreach($apps as $app) {
+        $app_node = $data->addChild($app->name);
+        
+        $configs = $app->configs;
+        foreach($configs as $config) {
+        
+            $config_node =  $app_node->addChild($config->name);
+            
+            $settings = $config->settings;
+            foreach($settings as $setting) {
+                
+                $leaf = new D3\Leaf($setting->key);
+                
+                array_push($config_node->children, $leaf);
+                
+                //$setting_node = $config_node->addChild();
+                //$setting_node->addChild($setting->value);
+            }
+        }        
+    }
+    
+    return Response::json($data);
 });
 
 Route::group(['prefix' => 'api', 'before' => 'auth.api'], function() {
@@ -74,91 +78,11 @@ Route::group(['prefix' => 'api', 'before' => 'auth.api'], function() {
         Route::get('/app/{app_id}/config/{config_id}/setting/{setting_id}/download', 'SettingController@download');
     });
 });
-   
-Route::get('/login',
-    array(
-        'before' => 'guest',
-        function() {
-            return View::make('login');
-        }
-    )
-);
 
-Route::post('/login', 
-    array(
-        'before' => 'csrf', 
-        function() {
+Route::get('/login', 'UserController@getLogin');
+Route::post('/login', 'UserController@postLogin');
 
-            $credentials = Input::only('email', 'password');
+Route::get('/signup', 'UserController@getSignup');
+Route::post('/signup', 'UserController@postSignup');
 
-            if (Auth::attempt($credentials, $remember = true)) {
-                return Redirect::intended('/api/v1/app')
-                    ->with('flash_message', 'Welcome Back!')
-                    ->with('flash_severity', 'info');
-            }
-            else {
-                return Redirect::to('/login')
-                    ->with('flash_message', 'Log in failed; please try again.')
-                    ->with('flash_severity', 'danger');
-            }
-
-            return Redirect::to('login');
-        }
-    )
-);
-
-Route::get('/logout', function() {
-
-    # Log out
-    Auth::logout();
-
-    # Send them to the homepage
-    return Redirect::to('/');
-
-});
-
-Route::get('/signup',
-    array(
-        'before' => 'guest',
-        function() {
-            return View::make('signup');
-        }
-    )
-);
-
-Route::post('/signup', 
-    array(
-        'before' => 'csrf', 
-        function() {
-
-            $user = new User;
-            $user->email    = Input::get('email');
-            $user->password = Hash::make(Input::get('password'));
-
-            # Try to add the user 
-            try {
-                $user->save();
-            }
-            # Fail
-            catch (Exception $e) {
-                return Redirect::to('/signup')
-                    ->with('flash_message', 'Sign up failed; please try again.')
-                    ->with('flash_severity', 'danger')
-                    ->withInput();
-            }
-
-            # Log the user in
-            Auth::login($user);
-
-            return Redirect::to('/api/v1/app')
-                ->with('flash_message', 'Welcome to hello!')
-                ->with('flash_severity', 'info');
-
-        }
-    )
-);
-
-Route::get('/download', function() {
-    return Input::get('path');
-});
-
+Route::get('/logout', 'UserController@getLogout');
