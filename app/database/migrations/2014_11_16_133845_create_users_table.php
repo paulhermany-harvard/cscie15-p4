@@ -44,6 +44,18 @@ class CreateUsersTable extends Migration {
             $table->string('verify_token', 96)->nullable();
             
             /**
+             * confirmed
+             * stores a flag for whether or not the user's email address has been verified
+             */
+            $table->boolean('confirmed')->default(0);
+            
+            /**
+             * confirmation_code
+             * stores a confirmation code used for verifying the user's email address
+             */
+            $table->string('confirmation_code')->nullable();
+            
+            /**
              * remember_token
              * stores the token for "remember me" sessions
             **/

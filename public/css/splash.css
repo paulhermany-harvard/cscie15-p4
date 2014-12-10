@@ -11,6 +11,12 @@ rect {
     stroke: #fff;
     stroke-width: 1px;
 }
+
+rect.menu {
+    fill: red;
+    stroke: none;
+}
+
 rect.parent { cursor: pointer; }
 rect.root { fill-opacity: 1; }
 rect.app { fill-opacity: .80; }

@@ -93,7 +93,7 @@ return array(
     |
     */
 
-    'password' => $_ENV['smtp-password'],,
+    'password' => $_ENV['smtp-password'],
 
     /*
     |--------------------------------------------------------------------------

@@ -46,7 +46,7 @@ Route::get('/test', function() {
 
 Route::get('/d3data', array(
     function() {
-        $data = new D3\Node(null, 'My Applications', 'root');
+        $data = new D3\Node(null, 'My Applications', 'root', null);
         
         $user = Auth::user();
         
@@ -57,18 +57,18 @@ Route::get('/d3data', array(
         if($user) {
             $apps = $user->apps()->get();
             foreach($apps as $app) {
-                $app_node = $data->addChild($app->id, $app->name, 'app');
+                $app_node = $data->addChild($app->id, $app->name, 'app', URL::action('AppController@show', $app->id));
                 
                 $configs = $app->configs;
                 foreach($configs as $config) {
                 
-                    $config_node =  $app_node->addChild($config->id, $config->name, 'config');
+                    $config_node =  $app_node->addChild($config->id, $config->name, 'config', URL::action('ConfigController@show', [$app->id, $config->id]));
                     
                     $settings = $config->settings;
                     foreach($settings as $setting) {
                         
-                        $settings_node = $config_node->addChild($setting->id, $setting->key, 'setting');
-                        $settings_node->addChild(null, $setting->value, 'resource');
+                        $settings_node = $config_node->addChild($setting->id, $setting->key, 'setting', URL::action('SettingController@show', [$app->id, $config->id, $setting->id]));
+                        $settings_node->addChild(null, $setting->value, 'resource', null);
                     }
                 }        
             }

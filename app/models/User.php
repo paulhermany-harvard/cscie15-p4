@@ -17,22 +17,25 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
     protected $table = 'users';
 
     /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
-    protected $hidden = array('password', 'remember_token');
-
+     * provides a list of properties that should be included in the object's array and json output
+    */
+    protected $visible = array(
+        'id',
+        'name',
+        'email'
+    );
+    
+    /**
+     * provides a list of properties to explicitly allow for mass assignment
+    */
+    protected $fillable = array('email', 'password', 'confirmation_code');
+    
     public function apps() {
         return $this->hasMany('Configurely\App');
     }
     
     public function owns($app) {
         return $this->id == $app->user_id;
-    }
-    
-    public function verified() {
-        return is_null($this->verify_token);
     }
     
     public function isGuest() {

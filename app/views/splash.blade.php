@@ -12,11 +12,11 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-8">
             <h1>Configurely</h1>
             <p class="lead">an application catalog and configuration management tool</p>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
             <div class="jumbotron">
                 <a href="/manage" class="btn btn-primary btn-lg btn-block">Get Started</a>
             </div>

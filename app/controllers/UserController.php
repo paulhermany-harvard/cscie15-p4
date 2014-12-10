@@ -51,8 +51,8 @@ class UserController extends Controller {
     public function postSignup() {
     
         $validator = Validator::make(Input::all(), [
-            'email' => ['email', 'max:255', 'required'],
-            'password' => 'required'
+            'email' => ['email', 'max:255', 'required', 'unique:users'],
+            'password' => ['required', 'confirmed', 'min:6']
         ]);
         
         if ($validator->fails()) {
@@ -61,24 +61,37 @@ class UserController extends Controller {
                 ->withErrors($validator);
         }
     
-        $user = new User;
-        $user->email = Input::get('email');
-        $user->password = Hash::make(Input::get('password'));
-
+        // get the authenticator, which will be used to salt the password hash
+        $salt = $_ENV['authenticator'];
+        
+        // generate the confirmation code, which will be used for email verification
+        $confirmation_code = Hash::make(Input::get('email') . $salt);        
+    
         try {
-            $user->save();
+            $user = User::create([
+                'email' => Input::get('email'),
+                'password' => Hash::make(Input::get('password') . $salt),
+                'confirmation_code' => $confirmation_code
+            ]);
+            
+            $data = ['user' => $user];
+            
+            Mail::send('emails.verify', $data, function($message) {
+                $message->to(
+                    Input::get('email'),
+                    Input::get('email')
+                )->subject(Lang::get('app.verify_subject'));
+            });
+
+            return Redirect::to('/')
+                ->with('flash_message', Lang::get('app.signup_pending'))
+                ->with('flash_severity', 'warning');
         } catch (Exception $e) {
             return Redirect::to('/signup')
-                ->with('flash_message', 'Sign up failed; please try again.')
+                ->with('flash_message', Lang::get('app.signup_failed'))
                 ->with('flash_severity', 'danger')
                 ->withInput();
         }
-
-        Auth::login($user);
-
-        return Redirect::to('/')
-            ->with('flash_message', 'Welcome to Configurely!')
-            ->with('flash_severity', 'info');
     }
     
     /**

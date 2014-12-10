@@ -21,6 +21,11 @@
                         {{ Form::password('password', array('class' => 'form-control')) }}
                         <p class="text-danger">{{ $errors->first('password') }}</p>
                     </div>
+                    <div class="form-group password">
+                        {{ Form::label('password_confirmation', 'Re-enter Password:') }}
+                        {{ Form::password('password_confirmation', array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('password_confirmation') }}</p>
+                    </div>
                     <div class="form-group">
                         {{ Form::submit('Sign up', array('class' => 'btn btn-primary btn-md')) }}
                     </div>

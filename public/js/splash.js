@@ -3,6 +3,7 @@ var Configurely = {};
 Configurely.Graph = (function () {
 
     var graph;
+    //var menu;
 
     var w = $(window).width(),
         h = $(window).height() / 2 - $('body > .navbar').height(),
@@ -24,10 +25,16 @@ Configurely.Graph = (function () {
         g.selectAll("rect")
             .attr("width", d.dy * w)
             .attr("height", function(d) { return d.dx * h; });
+            
         
         g.selectAll("text")
             .attr("transform", function(d) { return "translate(8," + (((d.dx * h) / 2) + 4) + ")"; })
             .style("opacity", function(d) { return d.dx * h > 10 ? 1 : 0; })
+        
+        /*
+        g.selectAll("a")
+            .attr("transform", function(d) { return  "translate(" + (d.dy * w - 16) + "," + (d.dx * h - 16) + ")"; })
+        */
     };
   
     return {
@@ -53,9 +60,6 @@ Configurely.Graph = (function () {
                 var partition = d3.layout.partition()
                     .value(function(d) { return d.size; });
                 
-                //x.domain([.2, 1]).range([40, w]);
-                //y.domain([0, 1]);
-                
                 var g = graph.selectAll("g")
                     .data(partition.nodes(root))
                     .enter().append("svg:g")
@@ -66,34 +70,40 @@ Configurely.Graph = (function () {
                
                 g.append("svg:rect")
                     .attr("width", root.dy * kx)
-                    //.attr("width", ((w - 40) / (.8)) * .2)
                     .attr("height", function(d) { return d.dx * h; })
-                    .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); });
+                    .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); })
+                    .on("mouseover", function(d) { 
+                        menu.transition()
+                            .duration(500)
+                            .attr("width", d.dy * w)
+                            .attr("height", 16)
+                            .attr("transform", "translate(" + d.y * w + "," + d.x * h + ")")
+                            .style("opacity", function(d) { return 1; });
+                    });
             
                 g.append("svg:text")
                     .attr("transform", function(d) { return "translate(8," + (d.dx * h / 2 + 4) + ")"; })
                     .style("opacity", function(d) { return d.dx * h > 12 ? 1 : 0; })
                     .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); })
                     .text(function(d) { return d.name; });
-                    
-                    /*
-                link.append("svg:foreignObject")
-                    .attr("width", 20)
-                    .attr("height", 20)
-                    .attr("y", "-7px")
-                    .attr("x", "-7px")
-                  .append("xhtml:span")
-                    .attr("class", "control glyphicon glyphicon-zoom-in");
-                    */
+                
                 /*
-                g.append("svg:foreignObject")
+                g.append("svg:a")
+                    .attr("xlink:href", function(d){ return d.url ? d.url : '#'; })
                     .attr("transform", function(d) { return "translate(" + (d.dy * w - 16) + "," + (d.dx * h - 16) + ")" })
-                    .attr("width", 16)
-                    .attr("height", 16)
-                    .append("xhtml:span")
-                        .attr("class", function(d) { return (d.type ? d.type : 'root') + ' link glyphicon glyphicon-new-window'; });
-                  */  
-
+                    .append("svg:foreignObject")
+                        .attr("width", 16)
+                        .attr("height", 16)
+                        .append("xhtml:span")
+                            .attr("class", function(d) { return (d.type ? d.type : 'root') + ' link glyphicon glyphicon-new-window'; });
+                */
+ 
+                /*
+                menu = graph.append("svg:rect")
+                    .attr('class', 'menu')
+                    .style("opacity", 0);
+                */
+                
                 d3.select(window)
                     .on("click", function() { click(root); })
                         
@@ -128,6 +138,11 @@ Configurely.Graph = (function () {
                     t.select("text")
                         .attr("transform", function(d) { return "translate(8," + (d.dx * ky / 2 + 4) + ")" })
                         .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; });
+                    
+                    /*
+                    t.select("a")
+                        .attr("transform", function(d) { return "translate(" + (d.dy * kx - 16) + "," + (d.dx * ky - 16) + ")"; });
+                    */
                     
                     if(d3.event) {
                         d3.event.stopPropagation();
