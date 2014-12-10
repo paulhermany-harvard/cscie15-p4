@@ -6,32 +6,13 @@ class DemoDataSeeder extends Seeder {
         
         $user = User::where('email','=', 'guest@configurely.com')->first();
         if(isset($user)) {
-            $app = $this->addApp($user->id, 'cscie15-p1');
-            $config = $this->addConfig($app->id, 'DEV');
-            $setting = $this->addSetting($config->id, 'db_username', 'dbuser-dev');
-            $setting = $this->addSetting($config->id, 'db_password', 'dbpassword-dev');
-            $setting = $this->addSetting($config->id, 'title', 'Project Portfolio');
+        
+            $app = $this->addApp($user->id, 'Configurely');
+            $config = $this->addConfig($app->id, 'Development');
+            $setting = $this->addSetting($config->id, 'API App Url', 'http://configurely.local.com/api/v1/app');
             
-            $config = $this->addConfig($app->id, 'QA');
-            
-            $config = $this->addConfig($app->id, 'PROD');
-            $setting = $this->addSetting($config->id, 'db_username', 'dbuser-prod');
-            $setting = $this->addSetting($config->id, 'db_password', 'dbpassword-prod');
-            $setting = $this->addSetting($config->id, 'title', 'Project Portfolio');
-
-            $app = $this->addApp($user->id, 'cscie15-p2');
-            $config = $this->addConfig($app->id, 'DEV');
-            $setting = $this->addSetting($config->id, 'xkcd_comic_id', '936');
-            $setting = $this->addSetting($config->id, 'xkcd_comic_name', 'Password Strength');
-
-            $config = $this->addConfig($app->id, 'QA');
-            
-            $app = $this->addApp($user->id, 'cscie15-p3');
-            $config = $this->addConfig($app->id, 'DEV');
-            $setting = $this->addSetting($config->id, 'lorem-ipsum-label', 'Lorem-Ipsum');
-            $setting = $this->addSetting($config->id, 'user-label', 'Random User');
-            
-            $config = $this->addConfig($app->id, 'TEST');
+            $config = $this->addConfig($app->id, 'Production');
+            $setting = $this->addSetting($config->id, 'API App Url', 'http://configurely.com/api/v1/app');
             
         }
     }

@@ -1,7 +1,7 @@
 @extends('layouts.master')
 
 @section('PlaceHolderMetaTitle')
-<title>Configurely, wicked simple configuration management</title>
+<title>Configurely, application configuration management</title>
 @stop
 
 @section('PlaceHolderAdditionalPageHead')
@@ -9,13 +9,23 @@
 @stop
 
 @section('PlaceHolderMain')
-<div id="graph"></div>
+
 <div class="container">
- <!--
-        <h1>Configurely</h1>
-        <p class="lead">hello world</p>
- -->
+    <div class="row">
+        <div class="col-md-9">
+            <h1>Configurely</h1>
+            <p class="lead">an application catalog and configuration management tool</p>
+        </div>
+        <div class="col-md-3">
+            <div class="jumbotron">
+                <a href="/manage" class="btn btn-primary btn-lg btn-block">Get Started</a>
+            </div>
+        </div>
+    </div>
 </div>
+
+<div id="graph"></div>
+
 @stop
 
 @section('PlaceHolderAdditionalScript')

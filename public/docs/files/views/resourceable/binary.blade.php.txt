@@ -1,0 +1,1 @@
+<a href="{{ URL::action('SettingController@download', [$resource->setting->config->app->id, $resource->setting->config->id, $resource->setting->id]) }}">{{ URL::action('SettingController@download', [$resource->setting->config->app->id, $resource->setting->config->id, $resource->setting->id]) }}</a>

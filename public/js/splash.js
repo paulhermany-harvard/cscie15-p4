@@ -5,13 +5,13 @@ Configurely.Graph = (function () {
     var graph;
 
     var w = $(window).width(),
-        h = $(window).height() - $('body > .navbar').height(),
+        h = $(window).height() / 2 - $('body > .navbar').height(),
         x = d3.scale.linear().range([0, w]),
         y = d3.scale.linear().range([0, h]);
         
     var resize = function() {
         w = $(window).width();
-        h = $(window).height() - $('body > .navbar').height();
+        h = $(window).height() / 2 - $('body > .navbar').height();
         x = d3.scale.linear().range([0, w]);
         y = d3.scale.linear().range([0, h]);
         
@@ -41,7 +41,7 @@ Configurely.Graph = (function () {
                 }
                 
                 // remove extra white space just below nav bar
-                $('body > .navbar').css('margin-bottom', '0');
+                //$('body > .navbar').css('margin-bottom', '0');
                 
                 graph = d3.select("#graph")
                     .append("div")
@@ -53,6 +53,9 @@ Configurely.Graph = (function () {
                 var partition = d3.layout.partition()
                     .value(function(d) { return d.size; });
                 
+                //x.domain([.2, 1]).range([40, w]);
+                //y.domain([0, 1]);
+                
                 var g = graph.selectAll("g")
                     .data(partition.nodes(root))
                     .enter().append("svg:g")
@@ -60,31 +63,53 @@ Configurely.Graph = (function () {
                     .on("click", click);
                 
                 var kx = w / root.dx;
-
+               
                 g.append("svg:rect")
                     .attr("width", root.dy * kx)
+                    //.attr("width", ((w - 40) / (.8)) * .2)
                     .attr("height", function(d) { return d.dx * h; })
                     .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); });
             
                 g.append("svg:text")
                     .attr("transform", function(d) { return "translate(8," + (d.dx * h / 2 + 4) + ")"; })
                     .style("opacity", function(d) { return d.dx * h > 12 ? 1 : 0; })
+                    .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); })
                     .text(function(d) { return d.name; });
+                    
+                    /*
+                link.append("svg:foreignObject")
+                    .attr("width", 20)
+                    .attr("height", 20)
+                    .attr("y", "-7px")
+                    .attr("x", "-7px")
+                  .append("xhtml:span")
+                    .attr("class", "control glyphicon glyphicon-zoom-in");
+                    */
+                /*
+                g.append("svg:foreignObject")
+                    .attr("transform", function(d) { return "translate(" + (d.dy * w - 16) + "," + (d.dx * h - 16) + ")" })
+                    .attr("width", 16)
+                    .attr("height", 16)
+                    .append("xhtml:span")
+                        .attr("class", function(d) { return (d.type ? d.type : 'root') + ' link glyphicon glyphicon-new-window'; });
+                  */  
 
                 d3.select(window)
                     .on("click", function() { click(root); })
                         
                 function click(d) {
-                    if(d3.event.shiftKey && d.id) {
-                    var c = d;
-                    var s = '';
-                    while(c.parent) {
-                        s = c.type + '/' + c.id + '/' + s;
-                        c = c.parent;
+                    if(d3.event) {
+                        if(d3.event.shiftKey && d.id) {
+                            var c = d;
+                            var s = '';
+                            while(c.parent) {
+                                s = c.type + '/' + c.id + '/' + s;
+                                c = c.parent;
+                            }
+                            window.location = '/api/v1/' + s;
+                        }
                     }
-                    window.location = '/api/v1/' + s;
-                    }
-
+                    
                     if (!d.children) return;
 
                     kx = (d.y ? w - 40 : w) / (1 - d.y);
@@ -104,14 +129,15 @@ Configurely.Graph = (function () {
                         .attr("transform", function(d) { return "translate(8," + (d.dx * ky / 2 + 4) + ")" })
                         .style("opacity", function(d) { return d.dx * ky > 12 ? 1 : 0; });
                     
-                    d3.event.stopPropagation();
+                    if(d3.event) {
+                        d3.event.stopPropagation();
+                    }
                 }
             });
         
             $(window).resize(function() {
                 resize();
             });
-        
         }
     };
 })();

@@ -84,6 +84,10 @@ Route::filter('auth.api', function($route, $request) {
 */
 
 Route::filter('guest', function() {
+    if (Auth::check()) return Redirect::to('/');
+});
+
+Route::filter('guest-user', function() {
     if (!Auth::check()) {
         $user = User::guest();
         Auth::loginUsingId($user->id);

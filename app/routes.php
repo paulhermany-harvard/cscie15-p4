@@ -12,7 +12,6 @@
 */
 
 Route::get('/', array(
-    'before' => 'guest',
     function() {
         return View::make('splash');
     }
@@ -46,34 +45,33 @@ Route::get('/test', function() {
 });
 
 Route::get('/d3data', array(
-    'before' => 'guest',
     function() {
         $data = new D3\Node(null, 'My Applications', 'root');
         
-        $apps = Auth::user()->apps()->get();
-        foreach($apps as $app) {
-            $app_node = $data->addChild($app->id, $app->name, 'app');
-            
-            $configs = $app->configs;
-            foreach($configs as $config) {
-            
-                $config_node =  $app_node->addChild($config->id, $config->name, 'config');
+        $user = Auth::user();
+        
+        if(is_null($user)) {
+            $user = User::guest();
+        }
+        
+        if($user) {
+            $apps = $user->apps()->get();
+            foreach($apps as $app) {
+                $app_node = $data->addChild($app->id, $app->name, 'app');
                 
-                $settings = $config->settings;
-                foreach($settings as $setting) {
+                $configs = $app->configs;
+                foreach($configs as $config) {
+                
+                    $config_node =  $app_node->addChild($config->id, $config->name, 'config');
                     
-                    $settings_node = $config_node->addChild($setting->id, $setting->key, 'setting');
-                    
-                    $settings_node->addChild(null, $setting->value, 'resource');
-                    
-    //                $leaf = new D3\Node($setting->key);
-                    
-      //              array_push($config_node->children, $leaf);
-                    
-                    //$setting_node = $config_node->addChild();
-                    //$setting_node->addChild($setting->value);
-                }
-            }        
+                    $settings = $config->settings;
+                    foreach($settings as $setting) {
+                        
+                        $settings_node = $config_node->addChild($setting->id, $setting->key, 'setting');
+                        $settings_node->addChild(null, $setting->value, 'resource');
+                    }
+                }        
+            }
         }
         
         return Response::json($data);
