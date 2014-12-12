@@ -21,12 +21,28 @@ class Base extends \Eloquent {
     protected $validator;
 
     /**
+     * gets the created_at property displayed as a friendly "days ago" string with proper pluralization
+     *
+     * @return string a string representation of the created_at timestamp
+    */
+    public function created_at_display() {
+        return $this->days_ago($this->created_at);  
+    }
+    
+    /**
      * gets the updated_at property displayed as a friendly "days ago" string with proper pluralization
      *
      * @return string a string representation of the updated_at timestamp
     */
     public function updated_at_display() {
-        $datediff = time() - strtotime($this->updated_at);
+        return $this->days_ago($this->updated_at);
+    }
+    
+    /**
+     * gets the specified date displayed as a friendly "days" ago string with proper pluralization
+    */
+    private function days_ago($date) {
+        $datediff = time() - strtotime($date);
         $daysago = floor($datediff/(60*60*24));
         
         if($daysago == 0) {
@@ -44,9 +60,9 @@ class Base extends \Eloquent {
             }
             return '' . $hoursago . ' hour' . ($hoursago == 1 ? '' : 's') . ' ago';
         }
-        return '' . $daysago . ' day' . ($daysago == 1 ? '' : 's') . ' ago';   
+        return '' . $daysago . ' day' . ($daysago == 1 ? '' : 's') . ' ago';
     }
-
+    
     /**
      * overrides the Eloquent constructor to initialize the STI attributes
     */

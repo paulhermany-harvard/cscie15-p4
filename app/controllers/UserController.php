@@ -61,16 +61,13 @@ class UserController extends Controller {
                 ->withErrors($validator);
         }
     
-        // get the authenticator, which will be used to salt the password hash
-        $salt = $_ENV['authenticator'];
-        
         // generate the confirmation code, which will be used for email verification
-        $confirmation_code = Hash::make(Input::get('email') . $salt);        
+        $confirmation_code = Hash::make(Input::get('email') . str_random(32));
     
         try {
             $user = User::create([
                 'email' => Input::get('email'),
-                'password' => Hash::make(Input::get('password') . $salt),
+                'password' => Hash::make(Input::get('password')),
                 'confirmation_code' => $confirmation_code
             ]);
             
@@ -92,6 +89,30 @@ class UserController extends Controller {
                 ->with('flash_severity', 'danger')
                 ->withInput();
         }
+    }
+
+    /**
+     * confirms the confirmation code, completes the registration process, and logs in the user
+     */    
+    public function getVerify($confirmation_code) {
+
+        $user = User::whereConfirmationCode($confirmation_code)->first();
+
+        if (!$user) {
+            return Redirect::to('/')
+                ->with('flash_message', Lang::get('app.verify_failed'))
+                ->with('flash_severity', 'danger');
+        }
+
+        $user->confirmed = 1;
+        $user->confirmation_code = null;
+        $user->save();
+
+        Auth::login($user);
+        
+        return Redirect::to('/')
+            ->with('flash_message', Lang::get('app.verify_success'))
+            ->with('flash_severity', 'success');
     }
     
     /**

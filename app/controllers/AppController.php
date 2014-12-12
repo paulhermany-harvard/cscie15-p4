@@ -104,6 +104,10 @@ class AppController extends \ApiBaseController {
         return Configurely\App::getResponse($app_id,
             function($app) {
                 try {
+                    if(!$app->validate(Input::all())) {
+                        return $this->getRedirectToEdit($app, $app->validator());
+                    }
+                    
                     $app->fill(Input::All());
                     $app->save();
                 } catch(Exception $e) {

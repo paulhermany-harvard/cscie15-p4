@@ -18,7 +18,7 @@
         </div>
         <div class="col-md-4">
             <div class="jumbotron">
-                <a href="/manage" class="btn btn-primary btn-lg btn-block">Get Started</a>
+                <a href="/api/v1/app" class="btn btn-primary btn-lg btn-block">Get Started</a>
             </div>
         </div>
     </div>

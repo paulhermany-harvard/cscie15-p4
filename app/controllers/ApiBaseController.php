@@ -3,6 +3,7 @@
 class ApiBaseController extends Controller {
 
     public function __construct() {
+        $this->beforeFilter('auth.api');
         $this->beforeFilter('auth');
         $this->beforeFilter('csrf', array('on' => array('post', 'put', 'patch', 'delete')));
     }

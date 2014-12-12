@@ -11,11 +11,13 @@
 |
 */
 
-Route::get('/', array(
-    function() {
-        return View::make('splash');
-    }
-));
+Route::get('/', function() {
+    return View::make('splash');
+});
+
+Route::get('/about', function() {
+    return View::make('about');
+});
 
 Route::get('generate-auth-token',
     array(
@@ -92,5 +94,7 @@ Route::post('/login', 'UserController@postLogin');
 
 Route::get('/signup', 'UserController@getSignup');
 Route::post('/signup', 'UserController@postSignup');
+
+Route::get('/verify/{confirmation_code}', 'UserController@getVerify');
 
 Route::get('/logout', 'UserController@getLogout');

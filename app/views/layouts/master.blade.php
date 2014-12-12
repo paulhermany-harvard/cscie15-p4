@@ -33,12 +33,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="http://configurely.com">Configurely</a>
+                <a class="navbar-brand" href="{{ Request::root() }}">Configurely</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a href="/about">What is this?</a></li>
-                    <li><a href="/about/api">API Documentation</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::user() && !Auth::user()->isGuest())
@@ -47,7 +46,7 @@
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/logout">Log out</a></li>
                             <li class="divider"></li>
-                            <li><a href="#">Manage Applications</a></li>
+                            <li><a href="/api/v1/app">Manage Applications</a></li>
                         </ul>
                     </li>
                     @else
@@ -73,6 +72,7 @@
 	@show
     
 	{{ HTML::script('js/lib/bootstrap-3.2.0.min.js') }}
+    {{ HTML::script('js/lib/moment-2.8.4.min.js') }}
 	{{ HTML::script('js/app.js') }}
     @yield('PlaceHolderAdditionalScript')
     
