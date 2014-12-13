@@ -4,15 +4,15 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <span>{{{ $app->name }}}</span>
-    </h3>
+    {{ HTML::breadcrumbs($app->breadcrumbs()) }}
     <hr />
     
     <div class="row">
-        <div class="col-md-8">    
+        <div class="col-md-8">
+            <h4>
+                <a href="{{ URL::action('AppController@show', $app->id) }}">{{{ $app->name }}}</a>
+            </h4>
+        
             <p class="description">{{{ $app->description }}}</p>
 
             @if ($app->live_url || $app->scm_url)
@@ -27,6 +27,8 @@
                 @endif
             </dl>
             @endif
+            
+            <p class="updated-at">Last updated {{ $app->updated_at_display() }}</p>
         </div>
         <div class="col-md-4">
             <a href="{{ URL::action('ConfigController@index', $app->id) }}" class="btn btn-default btn-md">View Configurations</a>

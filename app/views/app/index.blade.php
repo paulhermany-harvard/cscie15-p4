@@ -4,9 +4,7 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <span>Apps</span>
-    </h3>
+    {{ HTML::breadcrumbs(null, null, array(['Applications' => URL::action('AppController@index')])) }}
     <hr />
     
     @foreach($apps as $app)
@@ -45,7 +43,7 @@
     <div class="row">
         <div class="col-md-12">
             <a class="btn btn-primary btn-md" href="{{ URL::action('AppController@create') }}">
-              <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add App
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Add Application
             </a>
         </div>
     </div>

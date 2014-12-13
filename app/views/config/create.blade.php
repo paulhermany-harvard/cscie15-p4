@@ -4,27 +4,18 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <a href="{{ URL::action('AppController@show', $app->id) }}">{{{ $app->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $app->id) }}">Configurations</a>
-        <span> / </span>
-        <span>Create</span>
-    </h3>
+    {{ HTML::breadcrumbs($app->breadcrumbs(), array(['Configurations' => URL::action('ConfigController@index', $app->id)]), ['Create']) }}
+    <hr />
 
 	{{ Form::open(array('action' => array('ConfigController@store', $app->id) )) }}
-        <div class="form-group name">
-            {{ Form::label('name', 'Name') }}
-            {{ Form::text('name', null, array('class' => 'form-control')) }}
-            <p class="text-danger">{{ $errors->first('name') }}</p>
-        </div>        
-        <div class="form-group description">
-            {{ Form::label('description', 'Description') }}
-            {{ Form::textarea('description', null, array('class' => 'form-control')) }}
-            <p class="text-danger">{{ $errors->first('description') }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                {{ Form::control('text', 'name', 'Name', Input::get('name'), $errors) }}
+                {{ Form::control('textarea', 'description', 'Description', Input::get('name'), $errors) }}
+            </div>
         </div>
+        <hr />
+  
         <div class="form-group">
             {{ Form::submit('Save', array('class' => 'btn btn-primary btn-md')) }}
             <a href="{{ URL::action('ConfigController@index', $app->id) }}" class="btn btn-default btn-md">Cancel</a>

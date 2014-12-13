@@ -27,6 +27,20 @@ Form::macro('control', function($type = 'text', $name, $text, $value = null, $er
         ->with('options', $options);
 });
 
+/**
+ * Form::link macro
+ * 
+ * This macro creates a hyperlink for a form
+ *
+ * @param  string   $text           The text value of the link
+ * @param  string   $value          The hyperlink location (href)
+ * @param  array    $options        The array of attributes to apply to the link
+ * @return string
+ */
+Form::macro('link', function($text, $value, $options = array()) {
+    return link_to($value, $text, $options);
+});
+
 
 /**
  * Form::dropdown macro
@@ -80,8 +94,35 @@ Form::macro('timestamp', function($name, $value = null, $options = array()) {
     return Form::text($name, isset($value) ? $value->format('c') : '', $options);
 });
 
-HTML::macro('resource', function($resource) { 
-    return $resource->render();
+HTML::macro('breadcrumbs', function($before = array(), $current = array(), $after = array()) {
+    $breadcrumbs = array();
+    
+    // add 'before' crumbs
+    if(count($before) > 0) {
+        $breadcrumbs = array_merge($breadcrumbs, $before);
+    }
+    
+    // add model crumbs
+    if(count($current) > 0) {
+        // add separator
+        if(count($breadcrumbs) > 0) { 
+            array_push($breadcrumbs, '/');
+        }
+        $breadcrumbs = array_merge($breadcrumbs, $current);
+    }
+    
+    // add 'after' crumbs
+    if(count($after) > 0) {
+        // add separator
+        if(count($breadcrumbs) > 0) {
+            array_push($breadcrumbs, '/');
+        }
+        $breadcrumbs = array_merge($breadcrumbs, $after);
+    }
+
+    // generate breadcrumb control
+    return View::make('controls.breadcrumbs')
+        ->with('breadcrumbs', $breadcrumbs);
 });
 
 HTML::macro('confirm_delete', function($title, $message) {
@@ -89,3 +130,8 @@ HTML::macro('confirm_delete', function($title, $message) {
         ->with('title', $title)
         ->with('message', $message);
 });
+
+HTML::macro('resource', function($resource) { 
+    return $resource->render();
+});
+

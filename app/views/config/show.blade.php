@@ -4,27 +4,25 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <a href="{{ URL::action('AppController@show', $config->app->id) }}">{{{ $config->app->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $config->app->id) }}">Configurations</a>
-        <span> / </span>
-        <span>{{{ $config->name }}}</span>
-    </h3>
-
-    <p class="description">{{{ $config->description }}}</p>
-    
-    <a href="{{ URL::action('SettingController@index', [$config->app->id, $config->id]) }}" class="btn btn-default btn-md">Settings</a>  
-    
+    {{ HTML::breadcrumbs($config->breadcrumbs()) }}
     <hr />
     
-    {{ Form::open(['method' => 'DELETE', 'action' => ['ConfigController@destroy', $config->app->id, $config->id]]) }}
-        <a href="{{ URL::action('ConfigController@edit', [$config->app->id, $config->id]) }}" class="btn btn-primary btn-md">Edit</a>
-        {{ Form::submit('Delete', [
-            'class' => 'btn btn-link btn-md'
-        ]) }}
-    {{ Form::close() }}
+    <div class="row">
+        <div class="col-md-8">
+            <h4>
+                <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}">{{{ $config->name }}}</a>
+            </h4>
+            
+            <p class="description">{{{ $config->description }}}</p>
+            
+            <p class="updated-at">Last updated {{ $config->updated_at_display() }}</p>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ URL::action('SettingController@index', [$config->app->id, $config->id]) }}" class="btn btn-default btn-md">View Settings</a>
+            <a href="{{ URL::action('ConfigController@edit', [$config->app->id, $config->id]) }}" class="btn btn-default btn-md">Edit</a>
+            <a href="#" data-action="{{ URL::action('ConfigController@destroy', [$config->app->id, $config->id]) }}" data-title="{{{ $config->name }}}" class="btn btn-default btn-md" data-toggle="modal" data-target="#confirm-delete">Delete</a>
+        </div>
+    </div>
     
+    {{ HTML::confirm_delete('Delete', Lang::get('api.config_delete_warning')) }}
 @stop

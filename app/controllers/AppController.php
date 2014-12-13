@@ -109,6 +109,7 @@ class AppController extends \ApiBaseController {
                     }
                     
                     $app->fill(Input::All());
+                    $app->touch();
                     $app->save();
                 } catch(Exception $e) {
                     return $this->getErrorResponse('AppController@show', [$app->id], Lang::get('api.app_update_failed'));

@@ -21,6 +21,13 @@ class Base extends \Eloquent {
     protected $validator;
 
     /**
+     * gets the breadcrumbs for the model
+    */
+    public function breadcrumbs() {
+        return array();
+    }
+    
+    /**
      * gets the created_at property displayed as a friendly "days ago" string with proper pluralization
      *
      * @return string a string representation of the created_at timestamp

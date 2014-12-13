@@ -100,6 +100,24 @@ class Setting extends Base {
     }
     
     /**
+     * gets the breadcrumbs for the model
+    */
+    public function breadcrumbs() {
+        $breadcrumbs = $this->config->breadcrumbs();
+        if(count($breadcrumbs) > 0) {
+            array_push($breadcrumbs, '/');
+        }
+        return array_merge(
+            $breadcrumbs,
+            array(
+                ['Settings' => \URL::action('SettingController@index', [$this->config->app->id, $this->config->id])],
+                '/',
+                e($this->name) => \URL::action('SettingController@show', [$this->config->app->id, $this->config->id, $this->id])
+            )
+        );
+    }
+    
+    /**
      * deletes the resource for the setting and then deletes the setting
     */
     public function delete() {

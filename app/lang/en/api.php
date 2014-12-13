@@ -19,6 +19,7 @@ return array(
     'config_created' => 'Your configuration has been created.',
     'config_creation_failed' => 'Your configuration could not be created. Please try again.',
     'config_delete_failed' => 'Your configuration could not be deleted. Please try again.',
+    'config_delete_warning' => 'This will permanently delete this configuration and all of the settings associated with this configuration.',
     'config_deleted' => 'Your configuration has been deleted.',
     'config_not_found' => 'Configuration not found.',
     'config_update_failed' => 'The changes to your configuration could not be saved. Please try again.',

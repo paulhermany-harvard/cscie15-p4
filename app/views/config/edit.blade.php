@@ -4,34 +4,38 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <a href="{{ URL::action('AppController@show', $config->app->id) }}">{{{ $config->app->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $config->app->id) }}">Configurations</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}">{{{ $config->name }}}</a>
-        <span> / </span>
-        <span>Edit</span>
-    </h3>
+    {{ HTML::breadcrumbs(null, $config->breadcrumbs(), ['Edit']) }}
+    <hr />
 
 	{{ Form::model($config, ['method' => 'put', 'action' => ['ConfigController@update', $config->app->id, $config->id]]) }}
-        <div class="form-group name">
-            {{ Form::label('name', 'Name') }}
-            {{ Form::text('name', $config->name, array('class' => 'form-control')) }}
-            <p class="text-danger">{{ $errors->first('name') }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                {{ Form::control('text', 'name', 'Name', $config->name, $errors) }}
+                {{ Form::control('textarea', 'description', 'Description', $config->description, $errors) }}
+            </div>
+            <div class="col-md-6">
+                {{ Form::control('timestamp', 'created_at', 'Created', $config->created_at) }}
+                {{ Form::control('timestamp', 'updated_at', 'Updated', $config->updated_at) }}
+            </div>
         </div>
-        <div class="form-group description">
-            {{ Form::label('description', 'Description') }}
-            {{ Form::textarea('description', $config->description, array('class' => 'form-control')) }}
-            <p class="text-danger">{{ $errors->first('description') }}</p>
-        </div>
+        <hr />
+        
         <div class="form-group">
             {{ Form::submit('Update', [
                 'class' => 'btn btn-primary btn-md'
             ]) }}
-            <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}" class="btn btn-default btn-md">Cancel</a>
+            {{ Form::link('Cancel', URL::action('ConfigController@index', $config->app->id), [
+                'class' => 'btn btn-default btn-md'
+            ]) }}
+            {{ Form::button('Delete', [
+                'class' => 'btn btn-default btn-md',
+                'data-action' => URL::action('ConfigController@destroy', [$config->app->id, $config->id]),
+                'data-target' => '#confirm-delete',
+                'data-title' => $config->name,
+                'data-toggle' => 'modal'
+            ]) }}
         </div>
 	{{ Form::close() }}
+    
+    {{ HTML::confirm_delete('Delete', Lang::get('api.app_delete_warning')) }}
 @stop

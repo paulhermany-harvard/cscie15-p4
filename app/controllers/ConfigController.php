@@ -127,9 +127,9 @@ class ConfigController extends \ApiBaseController {
                     $config->fill(Input::All());
                     $config->save();
                 } catch(Exception $e) {
-                    return $this->getErrorResponse('ConfigController@show', [$app_id, $config_id], Lang::get('api.config_update_failed'));
+                    return $this->getErrorResponse('ConfigController@show', [$config->app->id, $config->id], Lang::get('api.config_update_failed'));
                 }
-                return $this->getSuccessResponse('ConfigController@show', [$app_id, $config_id], Lang::get('api.config_updated'));
+                return $this->getSuccessResponse('ConfigController@show', [$config->app->id, $config->id], Lang::get('api.config_updated'));
             }
         );
 	}

@@ -80,6 +80,17 @@ class App extends Base {
     }
     
     /**
+     * gets the breadcrumbs for the model
+    */
+    public function breadcrumbs() {
+        return array(
+            ['Applications' => \URL::action('AppController@index')],
+            '/',
+            [e($this->name) => \URL::action('AppController@show', $this->id)]
+        );
+    }
+    
+    /**
      * deletes the configurations for the application and then deletes the application
     */
     public function delete() {

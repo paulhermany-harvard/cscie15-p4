@@ -92,6 +92,24 @@ class Config extends Base {
     }
     
     /**
+     * gets the breadcrumbs for the model
+    */
+    public function breadcrumbs() {
+        $breadcrumbs = $this->app->breadcrumbs();
+        if(count($breadcrumbs) > 0) {
+            array_push($breadcrumbs, '/');
+        }
+        return array_merge(
+            $breadcrumbs,
+            array(
+                ['Configurations' => \URL::action('ConfigController@index', $this->app->id)],
+                '/',
+                [e($this->name) => \URL::action('ConfigController@show', [$this->app->id, $this->id])]
+            )
+        );
+    }
+    
+    /**
      * gets a configuration identified by the specified id and calls the delegate to get the response.
     */
     public static function getResponse($app_id, $config_id, $fn) {
