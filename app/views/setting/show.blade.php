@@ -4,29 +4,24 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <a href="{{ URL::action('AppController@show', $setting->config->app->id) }}">{{{ $setting->config->app->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $setting->config->app->id) }}">Configurations</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@show', [$setting->config->app->id, $setting->config->id]) }}">{{{ $setting->config->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('SettingController@index', [$setting->config->app->id, $setting->config->id]) }}">Settings</a>
-        <span> / </span>
-        <span>{{{ $setting->key }}}</span>
-    </h3>
-    
-    {{ HTML::resource( $setting->resourceable ) }}
-    
+    {{ HTML::breadcrumbs(null, $setting->breadcrumbs(), null) }}
     <hr />
     
-    {{ Form::open(['method' => 'DELETE', 'action' => ['SettingController@destroy', $setting->config->app->id, $setting->config->id, $setting->id]]) }}
-        <a href="{{ URL::action('SettingController@edit', [$setting->config->app->id, $setting->config->id, $setting->id]) }}" class="btn btn-primary btn-md">Edit</a>
-        {{ Form::submit('Delete', [
-            'class' => 'btn btn-link btn-md'
-        ]) }}
-    {{ Form::close() }}
+    <div class="row">
+        <div class="col-md-8">
+            <h4>
+                <a href="{{ URL::action('SettingController@show', [$setting->config->app->id, $setting->config->id, $setting->id]) }}">{{{ $setting->key }}}</a>
+            </h4>
+            
+            <p class="value">{{ HTML::resource( $setting->resourceable ) }}</p>
+            
+            <p class="updated-at">Last updated {{ $setting->updated_at_display() }}</p>
+        </div>
+        <div class="col-md-4">
+            <a href="{{ URL::action('SettingController@edit', [$setting->config->app->id, $setting->config->id, $setting->id]) }}" class="btn btn-default btn-md">Edit</a>
+            <a href="#" data-action="{{ URL::action('SettingController@destroy', [$setting->config->app->id, $setting->config->id, $setting->id]) }}" data-title="{{{ $setting->key }}}" class="btn btn-default btn-md" data-toggle="modal" data-target="#confirm-delete">Delete</a>
+        </div>
+    </div>
     
+    {{ HTML::confirm_delete('Delete', Lang::get('api.config_delete_warning')) }}    
 @stop

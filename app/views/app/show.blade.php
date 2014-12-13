@@ -4,7 +4,7 @@
 
 @section('PlaceHolderMainForm')
 
-    {{ HTML::breadcrumbs($app->breadcrumbs()) }}
+    {{ HTML::breadcrumbs(null, $app->breadcrumbs(), null) }}
     <hr />
     
     <div class="row">

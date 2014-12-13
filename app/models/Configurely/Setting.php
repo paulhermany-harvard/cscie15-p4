@@ -112,7 +112,7 @@ class Setting extends Base {
             array(
                 ['Settings' => \URL::action('SettingController@index', [$this->config->app->id, $this->config->id])],
                 '/',
-                e($this->name) => \URL::action('SettingController@show', [$this->config->app->id, $this->config->id, $this->id])
+                [e($this->key) => \URL::action('SettingController@show', [$this->config->app->id, $this->config->id, $this->id])]
             )
         );
     }

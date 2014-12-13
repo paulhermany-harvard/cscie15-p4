@@ -153,13 +153,6 @@ class SettingController extends \ApiBaseController {
                         return $this->getRedirectToEdit($setting, $setting->validator());
                     }
                     
-                    // Because of the polymorphic relationship between Setting and Resource,
-                    //   the existing resource will be deleted and a new resource will be created.
-                    //   One way to optimize this is to only recreate the resource when the type is changed.
-                    $setting->resourceable->delete();
-                    $setting->key = $key;
-                    $setting->save();
-                    
                     $class = 'Configurely\\'.ucfirst($type).'Resource';
                     if(!class_exists($class)) {
                         return $this->getErrorResponse('AppController@index', [], Lang::get('api.bad_request'));
@@ -173,6 +166,14 @@ class SettingController extends \ApiBaseController {
                     if(!$resource->setValue($setting)) {
                         return $this->getErrorResponse('AppController@index', [], Lang::get('api.bad_request'));
                     }
+                    
+                   // Because of the polymorphic relationship between Setting and Resource,
+                    //   the existing resource will be deleted and a new resource will be created.
+                    //   One way to optimize this is to only recreate the resource when the type is changed.
+                    $setting->resourceable->delete();
+                    $setting->key = $key;
+                    $setting->save();
+                    
                     $resource->save();
                     $resource->setting()->save($setting);
                 

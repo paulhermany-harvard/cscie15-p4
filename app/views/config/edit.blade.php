@@ -37,5 +37,5 @@
         </div>
 	{{ Form::close() }}
     
-    {{ HTML::confirm_delete('Delete', Lang::get('api.app_delete_warning')) }}
+    {{ HTML::confirm_delete('Delete', Lang::get('api.config_delete_warning')) }}
 @stop
