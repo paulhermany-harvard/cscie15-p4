@@ -59,14 +59,14 @@ class BinaryResource extends StringResource {
     }
     
     public static function getFilePath($user_id, $app_id, $config_id) {
-        return '/uploads/'.$user_id.'/'.$app_id.'/'.$config_id;
+        return '/uploads/'.$user_id.'/'.$app_id.'/'.$config_id.'/';
     }
     
     public static function saveFile($file, $key, $user_id, $app_id, $config_id) {
         $filename = $file->getClientOriginalName();
         $extension = $file->getClientOriginalExtension(); 
         
-        $destPath = BinaryResource::getFilePath($user_id, $app_id, $config_id).'\\';
+        $destPath = BinaryResource::getFilePath($user_id, $app_id, $config_id);
         $destFilename = BinaryResource::getFileName($key).'.'.$extension;
         
         // move the file to the storage directory
