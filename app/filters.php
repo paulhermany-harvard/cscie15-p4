@@ -48,6 +48,7 @@ Route::filter('auth.basic', function() {
     return Auth::basic();
 });
 
+/*
 Route::filter('auth.api', function($route, $request) {
     if(Auth::guest()) {
         $payload = $request->header('X-Auth-Token');
@@ -70,6 +71,27 @@ Route::filter('auth.api', function($route, $request) {
         $user = Auth::user();
     }
     Session::put('apiuser', $user);
+});*/
+
+Route::filter('auth-api-user', function($route, $request) {
+    if (!Auth::check()) {
+        $payload = $request->header('X-Auth-Token');
+
+        if($payload) {
+            $user = User::where('api_token',$payload)->first();
+            
+            if(isset($user)) {
+                Auth::loginUsingId($user->id);
+            }
+        }
+    }
+});
+
+Route::filter('auth-guest-user', function() {
+    if (!Auth::check()) {
+        $user = User::guest();
+        Auth::loginUsingId($user->id);
+    }
 });
 
 /*
@@ -87,12 +109,7 @@ Route::filter('guest', function() {
     if (Auth::check()) return Redirect::to('/');
 });
 
-Route::filter('guest-user', function() {
-    if (!Auth::check()) {
-        $user = User::guest();
-        Auth::loginUsingId($user->id);
-    }
-});
+
 
 /*
 |--------------------------------------------------------------------------

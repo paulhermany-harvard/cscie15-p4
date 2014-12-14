@@ -8,7 +8,7 @@
         <div>
             <p>Thanks for creating an account with Configurely.com.</p>
             <p>Please follow the link below to verify your email address:<br/>
-            {{ URL::to('verify/' . urlencode($user->confirmation_code)) }}</p>
+            {{ URL::to('verify/' . $user->confirmation_code) }}</p>
         </div>
     </body>
 </html>

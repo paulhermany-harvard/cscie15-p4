@@ -8,7 +8,7 @@ class AppController extends \ApiBaseController {
 	 * @return Response an html response if the request format is html, a json response otherwise
 	 */
 	public function index() {
-		$apps = $this->user()->apps()->get();
+		$apps = Auth::user()->apps()->get();
         
         if($this->getRequestFormat() == 'html') {
             return View::make('app.index')

@@ -4,63 +4,52 @@
 
 @section('PlaceHolderMainForm')
 
-    <h3>
-        <a href="{{ URL::action('AppController@index') }}">Apps</a>
-        <span> / </span>
-        <a href="{{ URL::action('AppController@show', $config->app->id) }}">{{{ $config->app->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@index', $config->app->id) }}">Configurations</a>
-        <span> / </span>
-        <a href="{{ URL::action('ConfigController@show', [$config->app->id, $config->id]) }}">{{{ $config->name }}}</a>
-        <span> / </span>
-        <a href="{{ URL::action('SettingController@index', [$config->app->id, $config->id]) }}">Settings</a>
-        <span>/</span>
-        <span>Create</span>
-    </h3>
-
+    {{ HTML::breadcrumbs($config->breadcrumbs(), array(['Settings' => URL::action('SettingController@index', [$config->app->id, $config->id])]), ['Create']) }}
+    <hr />
+    
 	{{ Form::open(array('action' => array('SettingController@store', $config->app->id, $config->id), 'files' => true)) }}
-        <div class="form-group key">
-            {{ Form::label('key', 'Key') }}
-            {{ Form::text('key', null, array('class' => 'form-control')) }}
-            <p class="text-danger">{{ $errors->first('key') }}</p>
-        </div>
-        <div class="form-group type">
-            {{ Form::label('type', 'Type') }}
-            {{ Form::select('type',
-                array(
-                    'binary' => 'Binary',
-                    'boolean' => 'Boolean',
-                    'datetime' => 'Datetime',
-                    'integer' => 'Integer',
-                    'string' => 'String'
-                ),
-                null !== Input::get('type') ? Input::get('type') : 'string',
-                array('class' => 'form-control')
-            ) }}
-        </div>
-        <div class="form-group value">
-            {{ Form::label('value', 'Value') }}
-            <div class="binary" style="display:none;">
-                {{ Form::file('binary_value') }}
-                <p class="text-danger">{{ $errors->first('binary_value') }}</p>
+        <div class="row">
+            <div class="col-md-6">
+                {{ Form::control('text', 'key', 'Key', Input::get('key'), $errors) }}
+
+                <div class="form-group type">
+                    {{ Form::label('type', 'Type') }}
+                    {{ Form::select('type',
+                        array(
+                            'binary' => 'Binary',
+                            'boolean' => 'Boolean',
+                            'datetime' => 'Datetime',
+                            'integer' => 'Integer',
+                            'string' => 'String'
+                        ),
+                        null !== Input::get('type') ? Input::get('type') : 'string',
+                        array('class' => 'form-control')
+                    ) }}
+                </div>
+                <div class="form-group value">
+                    {{ Form::label('value', 'Value') }}
+                    <div class="binary" style="display:none;">
+                        {{ Form::file('binary_value') }}
+                        <p class="text-danger">{{ $errors->first('binary_value') }}</p>
+                    </div>
+                    <div class="boolean" style="display:none;">
+                        {{ Form::checkbox('boolean_value', null, false) }}
+                        <p class="text-danger">{{ $errors->first('boolean_value') }}</p>
+                    </div>
+                    <div class="datetime" style="display:none;">
+                        {{ Form::text('datetime_value', null, array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('datetime_value') }}</p>
+                    </div>
+                    <div class="integer" style="display:none;">
+                        {{ Form::number('integer_value', null, array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('integer_value') }}</p>
+                    </div>
+                    <div class="string">
+                        {{ Form::textarea('string_value', null, array('class' => 'form-control')) }}
+                        <p class="text-danger">{{ $errors->first('string_value') }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="boolean" style="display:none;">
-                {{ Form::checkbox('boolean_value', null, false) }}
-                <p class="text-danger">{{ $errors->first('boolean_value') }}</p>
-            </div>
-            <div class="datetime" style="display:none;">
-                {{ Form::text('datetime_value', null, array('class' => 'form-control')) }}
-                <p class="text-danger">{{ $errors->first('datetime_value') }}</p>
-            </div>
-            <div class="integer" style="display:none;">
-                {{ Form::number('integer_value', null, array('class' => 'form-control')) }}
-                <p class="text-danger">{{ $errors->first('integer_value') }}</p>
-            </div>
-            <div class="string">
-                {{ Form::textarea('string_value', null, array('class' => 'form-control')) }}
-                <p class="text-danger">{{ $errors->first('string_value') }}</p>
-            </div>
-            
         </div>
         
         <div class="form-group">

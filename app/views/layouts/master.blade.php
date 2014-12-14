@@ -42,9 +42,12 @@
                 <ul class="nav navbar-nav navbar-right">
                     @if(Auth::user() && !Auth::user()->isGuest())
                     <li class="dropdown">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->email; }} <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{{ Auth::user()->email_display; }} <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <li><a href="/logout">Log out</a></li>
+                            @if(!Auth::user()->confirmed)
+                            <li><a href="/verify">Verify Email</a></li>
+                            @endif
                             <li class="divider"></li>
                             <li><a href="/api/v1/app">Manage Applications</a></li>
                         </ul>

@@ -41,11 +41,6 @@ Route::get('generate-auth-token',
 
 //265667529a7bd748f7c7d3ef0869ba999527c80ac3eab464c3901c64e7837955
 
-Route::get('/test', function() {
-    $access_token = Request::header('X-Auth-Token');
-    return $access_token;
-});
-
 Route::get('/d3data', array(
     function() {
         $data = new D3\Node(null, 'My Applications', 'root', null);
@@ -80,7 +75,7 @@ Route::get('/d3data', array(
     }
 ));
 
-Route::group(['prefix' => 'api', 'before' => 'auth.api'], function() {
+Route::group(['prefix' => 'api', 'before' => 'auth-api-user'], function() {
     Route::group(['prefix' => 'v1'], function() {
         Route::resource('app', 'AppController');
         Route::resource('app.config', 'ConfigController');
@@ -92,9 +87,11 @@ Route::group(['prefix' => 'api', 'before' => 'auth.api'], function() {
 Route::get('/login', 'UserController@getLogin');
 Route::post('/login', 'UserController@postLogin');
 
+Route::get('/logout', 'UserController@getLogout');
+
 Route::get('/signup', 'UserController@getSignup');
 Route::post('/signup', 'UserController@postSignup');
 
-Route::get('/verify/{confirmation_code}', 'UserController@getVerify');
+Route::get('/verify/{confirmation_code?}', 'UserController@getVerify');
+Route::post('/verify', 'UserController@postVerify');
 
-Route::get('/logout', 'UserController@getLogout');

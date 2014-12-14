@@ -42,6 +42,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
         return ($this->email === 'guest@configurely.com');
     }
     
+    public function getEmailDisplayAttribute() {
+        return $this->confirmed ? $this->email : $this->email.' (not verified)';
+    }
+    
     public static function guest() {
         return User::where('email','=','guest@configurely.com')->first();
     }

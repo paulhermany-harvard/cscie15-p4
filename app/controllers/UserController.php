@@ -7,7 +7,6 @@ class UserController extends Controller {
      */
     public function __construct() {
         $this->beforeFilter('auth', array('only' => ['getLogout']));
-        //$this->beforeFilter('guest', array('except' => ['getLogout']));
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
@@ -25,9 +24,15 @@ class UserController extends Controller {
         $credentials = Input::only('email', 'password');
 
         if (Auth::attempt($credentials, $remember = true)) {
-            return Redirect::intended('/')
-                ->with('flash_message', 'Welcome Back!')
-                ->with('flash_severity', 'info');
+            if(Auth::user()->confirmed) {        
+                return Redirect::intended('/')
+                    ->with('flash_message', 'Welcome Back!')
+                    ->with('flash_severity', 'info');
+            } else {
+                return Redirect::intended('/')
+                    ->with('flash_message', Lang::get('app.verify_pending'))
+                    ->with('flash_severity', 'warning');
+            }
         }
         else {
             return Redirect::to('/login')
@@ -62,7 +67,7 @@ class UserController extends Controller {
         }
     
         // generate the confirmation code, which will be used for email verification
-        $confirmation_code = Hash::make(Input::get('email') . str_random(32));
+        $confirmation_code = base64_encode(Hash::make(Input::get('email') . str_random(32)));
     
         try {
             $user = User::create([
@@ -94,14 +99,23 @@ class UserController extends Controller {
     /**
      * confirms the confirmation code, completes the registration process, and logs in the user
      */    
-    public function getVerify($confirmation_code) {
+    public function getVerify($confirmation_code = null) {
 
-        $user = User::whereConfirmationCode($confirmation_code)->first();
-
-        if (!$user) {
+        if(is_null($confirmation_code)) {
+            if(Auth::check()) {
+                return View::make('verify')
+                    ->with('user', Auth::user());
+            } else {
+                return Redirect::guest('login');
+            }
+        }
+        
+        try {
+            $user = User::whereConfirmationCode($confirmation_code)->firstOrFail();
+        } catch(Exception $e) {
             return Redirect::to('/')
                 ->with('flash_message', Lang::get('app.verify_failed'))
-                ->with('flash_severity', 'danger');
+                ->with('flash_severity', 'danger');            
         }
 
         $user->confirmed = 1;
@@ -113,6 +127,33 @@ class UserController extends Controller {
         return Redirect::to('/')
             ->with('flash_message', Lang::get('app.verify_success'))
             ->with('flash_severity', 'success');
+    }
+    
+    /**
+     * generates a new verification code and resends the email
+     */
+    public function postVerify() {
+        
+        $user = Auth::user();
+        
+        $confirmation_code = base64_encode(Hash::make($user->email . str_random(32)));
+        
+        $user->confirmation_code = $confirmation_code;
+        $user->save();
+        
+        $data = ['user' => $user];
+        
+        Mail::send('emails.verify', $data, function($message) {
+            $user = Auth::user();
+            $message->to(
+                $user->email,
+                $user->email
+            )->subject(Lang::get('app.verify_subject'));
+        });
+        
+        return Redirect::to('/')
+            ->with('flash_message', Lang::get('app.verify_pending'))
+            ->with('flash_severity', 'warning');
     }
     
     /**

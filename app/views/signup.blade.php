@@ -28,6 +28,7 @@
                     </div>
                     <div class="form-group">
                         {{ Form::submit('Sign up', array('class' => 'btn btn-primary btn-md')) }}
+                        <a href="/login" class="btn btn-link btn-md">Log in</a>
                     </div>
                   {{ Form::close() }}
                 </div>

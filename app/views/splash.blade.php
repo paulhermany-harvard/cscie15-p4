@@ -18,7 +18,11 @@
         </div>
         <div class="col-md-4">
             <div class="jumbotron">
-                <a href="/api/v1/app" class="btn btn-primary btn-lg btn-block">Get Started</a>
+                @if(Auth::user() && !Auth::user()->isGuest())
+                <a href="/api/v1/app" class="btn btn-primary btn-lg btn-block">Manage Applications</a>
+                @else
+                <a href="/signup" class="btn btn-primary btn-lg btn-block">Get Started</a>
+                @endif
             </div>
         </div>
     </div>
