@@ -64,6 +64,7 @@ Route::get('/d3data', array(
                 }        
             }
         } else {
+            try {
             $faker = Faker\Factory::create();
             
             $amax = rand(1,10);
@@ -87,6 +88,9 @@ Route::get('/d3data', array(
                         $settings_node->addChild(null, $value, 'resource', null);
                     }
                 }
+            }
+            }catch(Exception $e) {
+                return $e;
             }
         }
         
