@@ -44,7 +44,7 @@ class AppController extends \ApiBaseController {
             }
             
             $app->fill(Input::All());
-            $app->user()->associate($this->user());
+            $app->user()->associate(Auth::user());
             $app->save();
         } catch(Exception $e) {
             return $this->getErrorResponse('AppController@index', [], Lang::get('api.app_creation_failed'));
