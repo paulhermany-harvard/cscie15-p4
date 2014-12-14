@@ -227,7 +227,7 @@ class SettingController extends \ApiBaseController {
                 $path = storage_path().$filepath;
                 
                 if(!\File::exists($path)) {
-                    return $this->getErrorResponse('SettingController@show', [$setting->config->app->id, $setting->config->id, $setting->id], Lang::get('api.file_not_found'));;
+                    return $this->getErrorResponse('SettingController@show', [$setting->config->app->id, $setting->config->id, $setting->id], $path.' ',Lang::get('api.file_not_found'));;
                 }
 
                 return Response::make(File::get($path), 200, array(
