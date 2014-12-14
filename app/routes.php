@@ -45,14 +45,8 @@ Route::get('/d3data', array(
     function() {
         $data = new D3\Node(null, 'My Applications', 'root', null);
         
-        $user = Auth::user();
-        
-        if(is_null($user)) {
-            $user = User::guest();
-        }
-        
-        if($user) {
-            $apps = $user->apps()->get();
+        if(Auth::check()) {                    
+            $apps = Auth::user()->apps()->get();
             foreach($apps as $app) {
                 $app_node = $data->addChild($app->id, $app->name, 'app', URL::action('AppController@show', $app->id));
                 
@@ -68,6 +62,31 @@ Route::get('/d3data', array(
                         $settings_node->addChild(null, $setting->value, 'resource', null);
                     }
                 }        
+            }
+        } else {
+            $faker = Faker\Factory::create();
+            
+            $amax = rand(1,10);
+            for ($a = 0; $a < $amax; $a++) {
+                $app_node = $data->addChild(0, $faker->domainName, 'app', null);
+                
+                $configs = [['DEV','QA'],['DEMO','TEST'],['STAGE','PROD']];
+                $cmax = rand(1,3);
+                for ($c = 0; $c < $cmax; $c++) {
+                    $config_node =  $app_node->addChild(0, $faker->randomElement($configs[$c]), 'config', null);
+                    
+                    $components = ['app', 'api', 'db', 'farm', 'server', 'web'];
+                    $keys = ['key', 'username', 'password', 'size', 'online', 'offline'];
+                    
+                    $smax = rand(1,10);
+                    for($s = 0; $s < $smax; $s++) {
+                        
+                        $key = $faker->randomElement($components).'-'.$faker->randomElement($keys);
+                        $value = $faker->word();
+                        $settings_node = $config_node->addChild(0, $key, 'setting', null);
+                        $settings_node->addChild(null, $value, 'resource', null);
+                    }
+                }
             }
         }
         
