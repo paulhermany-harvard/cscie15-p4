@@ -123,7 +123,7 @@ class Config extends Base {
             return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.bad_request'));
         }
         
-        if(!\Session::get('apiuser')->owns($config->app)) {
+        if(!\Auth::user()->owns($config->app)) {
             return \ApiBaseController::getErrorResponse('AppController@index', [$app_id], \Lang::get('api.app_not_authorized'));
         }
         

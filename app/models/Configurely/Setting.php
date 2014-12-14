@@ -139,7 +139,7 @@ class Setting extends Base {
             return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.bad_request'));
         }
         
-        if(!\Session::get('apiuser')->owns($setting->config->app)) {
+        if(!\Auth::user()->owns($setting->config->app)) {
             return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.app_not_authorized'));
         }
         

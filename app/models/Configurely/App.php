@@ -108,7 +108,7 @@ class App extends Base {
             return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.app_not_found'));
 		}
         
-        if(!\Session::get('apiuser')->owns($app)) {
+        if(!\Auth::user()->owns($app)) {
             return \ApiBaseController::getErrorResponse('AppController@index', [], \Lang::get('api.app_not_authorized'));
         }
         
