@@ -44,7 +44,7 @@ class BinaryResource extends StringResource {
             $this->value = BinaryResource::saveFile(
                 \Input::file('binary_value'), 
                 $setting->key, 
-                \Session::get('apiuser')->id,
+                \Auth::user()->id,
                 $setting->config->app->id,
                 $setting->config->id
             );

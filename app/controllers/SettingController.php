@@ -84,7 +84,7 @@ class SettingController extends \ApiBaseController {
                     $resource->setting()->save($setting);
                     
                 } catch(Exception $e) {
-                    return $this->getErrorResponse('SettingController@index', [$config->app->id, $config->id], $e.Lang::get('api.setting_creation_failed'));
+                    return $this->getErrorResponse('SettingController@index', [$config->app->id, $config->id], Lang::get('api.setting_creation_failed'));
                 }
 
                 return $this->getSuccessResponse('SettingController@index', [$config->app->id, $config->id], Lang::get('api.setting_created'));
