@@ -221,7 +221,7 @@ class SettingController extends \ApiBaseController {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
             function($setting) {
                 $fileinfo = explode(';', $setting->resourceable->value);
-                $filepath = str_replace('/','\\',$fileinfo[0]);
+                //$filepath = str_replace('/','\\',$fileinfo[0]);
                 $filename = $fileinfo[1];
                 
                 $path = storage_path().$filepath;
