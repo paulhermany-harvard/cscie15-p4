@@ -220,24 +220,23 @@ class SettingController extends \ApiBaseController {
 	public function download($app_id, $config_id, $setting_id) {
         return Configurely\Setting::getResponse($app_id, $config_id, $setting_id,
             function($setting) {
-                try {
-                    $fileinfo = explode(';', $setting->resourceable->value);
-                    //$filepath = str_replace('/','\\',$fileinfo[0]);
-                    $filename = $fileinfo[1];
-                    
-                    $path = storage_path().$filepath;
-                    
-                    if(!\File::exists($path)) {
-                        return $this->getErrorResponse('SettingController@show', [$setting->config->app->id, $setting->config->id, $setting->id], $path.' ',Lang::get('api.file_not_found'));;
-                    }
-
-                    return Response::make(File::get($path), 200, array(
-                        'Content-Disposition' => 'attachment; filename="'.$filename.'"',
-                        'Content-Type' => 'application/octet-stream'
-                    ));
-                } catch(Exception $e) {
-                    return $e;
+            
+                $fileinfo = explode(';', $setting->resourceable->value);
+                //$filepath = str_replace('/','\\',$fileinfo[0]);
+                $filepath = $fileinfo[0];
+                $filename = $fileinfo[1];
+                
+                $path = storage_path().$filepath;
+                
+                if(!\File::exists($path)) {
+                    return $this->getErrorResponse('SettingController@show', [$setting->config->app->id, $setting->config->id, $setting->id], $path.' ',Lang::get('api.file_not_found'));;
                 }
+
+                return Response::make(File::get($path), 200, array(
+                    'Content-Disposition' => 'attachment; filename="'.$filename.'"',
+                    'Content-Type' => 'application/octet-stream'
+                ));
+                
             }
         );
 	}
