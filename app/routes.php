@@ -113,4 +113,3 @@ Route::post('/signup', 'UserController@postSignup');
 
 Route::get('/verify/{confirmation_code?}', 'UserController@getVerify');
 Route::post('/verify', 'UserController@postVerify');
-
