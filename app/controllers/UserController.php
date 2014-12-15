@@ -6,7 +6,7 @@ class UserController extends Controller {
      * creates a new UserController instance
      */
     public function __construct() {
-        $this->beforeFilter('auth', array('only' => ['getLogout']));
+        $this->beforeFilter('auth', array('only' => ['getLogout', 'getProfile']));
         $this->beforeFilter('csrf', array('on' => 'post'));
     }
 
@@ -41,6 +41,14 @@ class UserController extends Controller {
         }
 
         return Redirect::to('login');
+    }
+    
+    /**
+     * gets a response containing the user profile form
+     */
+    public function getProfile() {
+        return View::make('profile')
+            ->with('user', Auth::user());
     }
     
     /**
@@ -103,8 +111,17 @@ class UserController extends Controller {
 
         if(is_null($confirmation_code)) {
             if(Auth::check()) {
-                return View::make('verify')
-                    ->with('user', Auth::user());
+                $user = Auth::user();
+                
+                if($user->confirmed) {
+                    return Redirect::to('/')
+                        ->with('flash_message', Lang::get('app.verify_success'))
+                        ->with('flash_severity', 'success');
+                } else {
+                    return View::make('verify')
+                        ->with('user', Auth::user());
+                }
+                
             } else {
                 return Redirect::guest('login');
             }

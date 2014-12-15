@@ -108,6 +108,8 @@ Route::post('/login', 'UserController@postLogin');
 
 Route::get('/logout', 'UserController@getLogout');
 
+Route::get('/profile', 'UserController@getProfile');
+
 Route::get('/signup', 'UserController@getSignup');
 Route::post('/signup', 'UserController@postSignup');
 

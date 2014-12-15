@@ -71,7 +71,9 @@ Configurely.Graph = (function () {
                 g.append("svg:rect")
                     .attr("width", root.dy * kx)
                     .attr("height", function(d) { return d.dx * h; })
-                    .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); })
+                    .attr("class", function(d) { return (d.type ? d.type : 'root') + ' ' + (d.children ? "parent" : "child"); });
+                    
+                    /*
                     .on("mouseover", function(d) { 
                         menu.transition()
                             .duration(500)
@@ -79,7 +81,7 @@ Configurely.Graph = (function () {
                             .attr("height", 16)
                             .attr("transform", "translate(" + d.y * w + "," + d.x * h + ")")
                             .style("opacity", function(d) { return 1; });
-                    });
+                    });*/
             
                 g.append("svg:text")
                     .attr("transform", function(d) { return "translate(8," + (d.dx * h / 2 + 4) + ")"; })
